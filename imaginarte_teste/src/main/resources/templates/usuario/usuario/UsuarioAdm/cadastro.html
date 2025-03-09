@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imaginarte - Cadastro</title>
+</head>
+
+<body>
+<h3>Insira os dados</h3>
+
+<form method="post" enctype="multipart/form-data" th:object="${usuarioAdminDto}">
+    <input type="hidden" id="idUsuario" name="idUsuario" value="${param.idUsuario}">
+    <input type="hidden" id="idDuvida" name="idDuvida" value="${senha ? 'true' : 'false'}">
+
+    <div class="mb-3">
+        <input class="form-control" th:field="*{usuarioAdminDto.nome}" type="text" placeholder="Nome Completo" required>
+    </div>
+
+    <div class="mb-3">
+        <input class="form-control" th:field="*{usuarioAdminDto.email}" type="email" placeholder="Email" required>
+    </div>
+
+    <div class="mb-3">
+        <input class="form-control" th:field="*{usuarioAdminDto.senha}" type="password" placeholder="Senha" required>
+    </div>
+
+    <div class="mb-3">
+        <input type="password" name="confirmacao" id="confirmacao" class="form-control" placeholder="Confirme a Senha" required>
+    </div>
+
+    <div class="mb-3">
+        <input class="form-control" th:field="*{usuarioAdminDto.cpf}" type="text" placeholder="CPF" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="grupo" class="form-label">Grupo</label>
+        <select class="form-control" th:field="*{usuarioAdminDto.grupo}" id="grupo" required>
+            <option value="">Selecione o Grupo</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Estoquista">Estoquista</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+</form>
+
+<script>
+    // Validação de confirmação de senha
+    document.querySelector("form").addEventListener("submit", function(event) {
+        var senha = document.getElementById("senha").value;
+        var confirmacao = document.getElementById("confirmacao").value;
+        if (senha !== confirmacao) {
+            alert("As senhas não coincidem!");
+            event.preventDefault();
+        }
+    });
+</script>
+
+</body>
+</html>
