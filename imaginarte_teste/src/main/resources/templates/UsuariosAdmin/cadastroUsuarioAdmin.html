@@ -10,19 +10,19 @@
 <h3>Insira os dados</h3>
 
 <form method="post" enctype="multipart/form-data" th:object="${usuarioAdminDto}">
-    <input type="hidden" id="idUsuario" name="idUsuario" value="${param.idUsuario}">
-    <input type="hidden" id="idDuvida" name="idDuvida" value="${senha ? 'true' : 'false'}">
+
+    <input type="hidden" id="id" name="id" th:field="*{id}">
 
     <div class="mb-3">
-        <input class="form-control" th:field="*{usuarioAdminDto.nome}" type="text" placeholder="Nome Completo" required>
+        <input class="form-control" th:field="*{nome}" type="text" placeholder="Nome Completo" required>
     </div>
 
     <div class="mb-3">
-        <input class="form-control" th:field="*{usuarioAdminDto.email}" type="email" placeholder="Email" required>
+        <input class="form-control" th:field="*{email}" type="email" placeholder="Email" required>
     </div>
 
     <div class="mb-3">
-        <input class="form-control" th:field="*{usuarioAdminDto.senha}" type="password" placeholder="Senha" required>
+        <input class="form-control" th:field="*{senha}" type="password" id="senha" placeholder="Senha" required>
     </div>
 
     <div class="mb-3">
@@ -30,12 +30,12 @@
     </div>
 
     <div class="mb-3">
-        <input class="form-control" th:field="*{usuarioAdminDto.cpf}" type="text" placeholder="CPF" required>
+        <input class="form-control" th:field="*{cpf}" type="text" placeholder="CPF" required>
     </div>
 
     <div class="mb-3">
         <label for="grupo" class="form-label">Grupo</label>
-        <select class="form-control" th:field="*{usuarioAdminDto.grupo}" id="grupo" required>
+        <select class="form-control" th:field="*{grupo}" id="grupo" required>
             <option value="">Selecione o Grupo</option>
             <option value="Administrador">Administrador</option>
             <option value="Estoquista">Estoquista</option>

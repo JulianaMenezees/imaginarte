@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotEmpty;
 //essa classe obriga o usuário a preencher todos os dados
 public class UsuarioAdminDto {
 
+    private int id;
+
     @NotEmpty(message = "Campo obrigatório")
     private String nome;
 
@@ -19,6 +21,17 @@ public class UsuarioAdminDto {
 
     @NotEmpty(message = "Campo obrigatório")
     private String grupo;
+
+    //getters e setters
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public @NotEmpty(message = "Campo obrigatório") String getNome() {
         return nome;

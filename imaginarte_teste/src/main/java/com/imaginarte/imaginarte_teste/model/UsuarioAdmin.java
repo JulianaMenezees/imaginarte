@@ -38,7 +38,7 @@ public class UsuarioAdmin {
         this.id = id;
     }
 
-    public String getNome(String nome) {
+    public String getNome() {
         return this.nome;
     }
 
