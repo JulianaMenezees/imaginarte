@@ -4,46 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Imaginarte - Cadastro</title>
+    <link rel="stylesheet" th:href="@{/css/cadastroUsuario.css}" type="text/css">
 </head>
 
 <body>
-<h3>Insira os dados</h3>
 
-<form method="post" enctype="multipart/form-data" th:object="${usuarioAdminDto}">
+<div class="container">
+    <div class="formulario">
+        <h2>Insira os dados</h2>
 
-    <input type="hidden" id="id" name="id" th:field="*{id}">
+            <form method="post" enctype="multipart/form-data" th:object="${usuarioAdminDto}">
 
-    <div class="mb-3">
-        <input class="form-control" th:field="*{nome}" type="text" placeholder="Nome Completo" required>
+                <input type="hidden" id="id" name="id" th:field="*{id}">
+
+                <div class="mb-3">
+                    <input class="form-control" th:field="*{nome}" type="text" placeholder="Nome Completo" required>
+                </div>
+
+                <div class="mb-3">
+                    <input class="form-control" th:field="*{email}" type="email" placeholder="Email" required>
+                </div>
+
+                <div class="mb-3">
+                    <input class="form-control" th:field="*{senha}" type="password" id="senha" placeholder="Senha" required>
+                </div>
+
+                <div class="mb-3">
+                    <input type="password" name="confirmacao" id="confirmacao" class="form-control" placeholder="Confirme a Senha" required>
+                </div>
+
+                <div class="mb-3">
+                    <input class="form-control" th:field="*{cpf}" type="text" placeholder="CPF" required>
+                </div>
+
+                <div class="mb-3">
+                    <select class="form-control" th:field="*{grupo}" id="grupo" required>
+                        <option value="">Selecione o Grupo</option>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Estoquista">Estoquista</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
     </div>
-
-    <div class="mb-3">
-        <input class="form-control" th:field="*{email}" type="email" placeholder="Email" required>
-    </div>
-
-    <div class="mb-3">
-        <input class="form-control" th:field="*{senha}" type="password" id="senha" placeholder="Senha" required>
-    </div>
-
-    <div class="mb-3">
-        <input type="password" name="confirmacao" id="confirmacao" class="form-control" placeholder="Confirme a Senha" required>
-    </div>
-
-    <div class="mb-3">
-        <input class="form-control" th:field="*{cpf}" type="text" placeholder="CPF" required>
-    </div>
-
-    <div class="mb-3">
-        <label for="grupo" class="form-label">Grupo</label>
-        <select class="form-control" th:field="*{grupo}" id="grupo" required>
-            <option value="">Selecione o Grupo</option>
-            <option value="Administrador">Administrador</option>
-            <option value="Estoquista">Estoquista</option>
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Cadastrar</button>
-</form>
+</div>
 
 <script>
     // Validação de confirmação de senha

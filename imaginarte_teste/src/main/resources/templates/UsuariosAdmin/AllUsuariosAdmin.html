@@ -30,7 +30,7 @@
                 <td th:text="${usuario.email}"></td>
                 <td th:text="${usuario.senha}"></td>
                 <td th:text="${usuario.grupo}"></td>
-                <td th:text="${usuario.situacao}"></td>
+                <td th:text="${usuario.situacao} ? 'Ativo' : 'Inativo'"></td>
                 <td style="white-space: nowrap">
                     <a class="btn btn-primary bt-sm"
                        th:href="@{/usuario/editarUsuario(id=${usuario.id})}">Editar</a>

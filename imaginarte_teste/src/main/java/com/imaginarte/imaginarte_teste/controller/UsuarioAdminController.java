@@ -48,7 +48,7 @@ public class UsuarioAdminController {
         UsuarioAdmin usuarioAdmin;
 
         if (usuarioAdminDto.getId() != 0) {
-            // Se o usuário já existe, busca no banco para atualizar
+            // Busca usuário no banco para atualização
             usuarioAdmin = repo.findById(usuarioAdminDto.getId()).orElse(new UsuarioAdmin());
         } else {
             // Criando um novo usuário
@@ -61,13 +61,18 @@ public class UsuarioAdminController {
         usuarioAdmin.setSenha(usuarioAdminDto.getSenha());
         usuarioAdmin.setCpf(usuarioAdminDto.getCpf());
         usuarioAdmin.setGrupo(usuarioAdminDto.getGrupo());
-        usuarioAdmin.setSituacao(true); // Garante que a situação sempre será verdadeira
+
+        // Se for uma criação, define situação como ativa
+        if (usuarioAdmin.getId() == 0) {
+            usuarioAdmin.setSituacao(true);
+        }
 
         repo.save(usuarioAdmin);
         redirectAttributes.addFlashAttribute("mensagem", "Usuário salvo com sucesso!");
 
         return "redirect:/usuarios";
     }
+
 
     @GetMapping("/editar-usuario")
     public String showEditarUsuario(@RequestParam int id, Model model) {
