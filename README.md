@@ -9,16 +9,16 @@ Tela de Login
 ![Tela de Login](/Imagens/TelaLogin.png)
 
 Tela de opções para o administrador
-![Tela de Listar Produtos ADM](/Imagens/TELA ADM OPÇÕES.png)
+![Tela de Listar Produtos ADM](/Imagens/TELAADMOPÇÕES.png)
 
 Tela de listar os produtos para o administrador
-![Tela de Listar Produtos ADM](/Imagens/TELA ADM  LISTA.png)
+![Tela de Listar Produtos ADM](/Imagens/TELAADMLISTA.png)
 
 Tela de cadastrar produtos para o administrador
-![Tela de Listar Produtos ADM](/Imagens/TELA ADM CADASTRAR PRODUTO.png)
+![Tela de Listar Produtos ADM](/Imagens/TELAADMCADATRARPRODUTO.png)
 
 Tela de alterar produtos para o administrador
-![Tela de Listar Produtos ADM](/Imagens/TELA ADM ALTERAR PRODUTO.png)
+![Tela de Listar Produtos ADM](/Imagens/ADMALTERARPRODUTO.png)
 
 
 
