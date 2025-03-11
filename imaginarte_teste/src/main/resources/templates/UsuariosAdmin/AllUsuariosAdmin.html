@@ -2,48 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Imaginarte - Usuarios</title>
+    <link rel="stylesheet" th:href="@{/css/allUsuarios.css}" type="text/css">
 </head>
 
 <body>
 
+<div class="container">
+        <a class="btn btn-primary" id="cadastrar" href="/usuarios/cadastro">Cadastrar novo usuário</a>
 
-<a class="btn btn-primary" id="cadastrar" href="/usuarios/cadastro">Cadastrar novo usuário</a>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Senha</th>
+                    <th>Grupo</th>
+                    <th>Situação</th>
+                    <th>Editar Usuário</th>
+                    <th>Habilitar/Desabilitar</th>
+                </tr>
+                </thead>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Senha</th>
-            <th>Grupo</th>
-            <th>Situação</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
+                <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                        <td th:text="${usuario.id}"></td>
+                        <td th:text="${usuario.nome}"></td>
+                        <td th:text="${usuario.email}"></td>
+                        <td th:text="${usuario.senha}"></td>
+                        <td th:text="${usuario.grupo}"></td>
+                        <td th:text="${usuario.situacao} ? 'Ativo' : 'Inativo'"></td>
+                            <td style="white-space: nowrap">
+                                <a class="btn btn-primary btn-sm" th:href="@{/usuario/editarUsuario(id=${usuario.id})}">Editar</a>
+                            </td>
+                        <td style="white-space: nowrap">
+                            <label class="switch">
+                                <input type="checkbox" th:checked="${usuario.situacao}"
+                                       th:attr="data-id=${usuario.id}" onchange="toggleSituacao(this)">
+                                <span class="slider"></span>
+                            </label>
+                        </td>
 
-        <tbody>
-            <tr th:each="usuario : ${usuarios}">
-                <td th:text="${usuario.id}"></td>
-                <td th:text="${usuario.nome}"></td>
-                <td th:text="${usuario.email}"></td>
-                <td th:text="${usuario.senha}"></td>
-                <td th:text="${usuario.grupo}"></td>
-                <td th:text="${usuario.situacao} ? 'Ativo' : 'Inativo'"></td>
-                <td style="white-space: nowrap">
-                    <a class="btn btn-primary bt-sm"
-                       th:href="@{/usuario/editarUsuario(id=${usuario.id})}">Editar</a>
+                    </tr>
+                </tbody>
 
-                    <a class="btn btn-primary bt-sm"
-                       th:href="@{/usuario/editar-usuario(id=${usuario.id})}">Situação</a>
-                </td>
+            </table>
 
-            </tr>
-        </tbody>
-
-    </table>
-
+</div>
 
 </body>
 

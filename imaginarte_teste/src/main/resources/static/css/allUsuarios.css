@@ -1,0 +1,102 @@
+body {
+    background-color: #FFF8EF;
+    font-family: "Arial", serif;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh; /* Garante que ocupe toda a altura da tela */
+    display: flex;
+    justify-content: flex-start; /* Alinha os itens ao topo */
+    align-items: center; /* Centraliza horizontalmente */
+    flex-direction: column;
+    padding-top: 20px; /* Adiciona um pequeno espaçamento no topo */
+}
+
+.table {
+    width: 80%; /* Define uma largura para a tabela */
+    background-color: #FFF; /* Fundo branco */
+    border-collapse: collapse; /* Remove espaços duplos entre as bordas */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
+}
+
+.table th, .table td {
+    padding: 8px; /* Adiciona espaçamento interno de 0.5rem (8px) */
+    border: 1px solid #FEB6C6; /* Adiciona uma borda rosa claro */
+    text-align: center; /* Centraliza o texto */
+}
+
+.table thead {
+    background-color: #FEB6C6; /* Fundo rosa claro para o cabeçalho */
+    color: #FFF; /* Texto branco */
+}
+
+
+.btn-primary {
+    background-color: #A0E6B2; /* Cor de fundo verde claro */
+    border: none;
+    border-radius: 5px;
+    color: #FFF;
+    padding: 8px 12px; /* Ajusta o espaçamento interno */
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* Remove sublinhado do link */
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background-color: #87D39E; /* Cor mais escura ao passar o mouse */
+}
+
+/* Estilo do botão switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+/* Esconde o checkbox padrão */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Estilo da alavanca deslizante */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #FEB6C6; /* Rosa para desativado */
+    transition: 0.4s;
+    border-radius: 20px;
+}
+
+/* Círculo interno */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+/* Quando ativado */
+input:checked + .slider {
+    background-color: #A0E6B2; /* Verde para ativado */
+}
+
+/* Move o círculo quando ativado */
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
