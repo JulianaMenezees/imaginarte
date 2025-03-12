@@ -8,6 +8,9 @@ Tela de Cadastro
 Tela de Login
 ![Tela de Login](/Imagens/TelaLogin.png)
 
+
+TELAS ADMINISTRADOR SPRINT 2
+
 Tela de opções para o administrador
 ![Tela de Listar Produtos ADM](/Imagens/TELAADMOPÇÕES.png)
 
@@ -19,6 +22,20 @@ Tela de cadastrar produtos para o administrador
 
 Tela de alterar produtos para o administrador
 ![Tela de Listar Produtos ADM](/Imagens/ADMALTERARPRODUTO.png)
+
+
+TELAS ESTOQUISTA SPRINT 2
+
+
+Tela de opções para o estoquista
+![Tela de Listar Produtos ADM](/Imagens/TELAESTOQUISTAOPÇÕES.png)
+
+Tela de listar os produtos para o estoquista
+![Tela de Listar Produtos ADM](/Imagens/TELAESTOQUISTALISTA.png)
+
+Tela de alterar produtos para o administrador
+![Tela de Listar Produtos ADM](/Imagens/TELAESTOQUISTAALTERARPRODUTO.png)
+
 
 
 
