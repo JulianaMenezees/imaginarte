@@ -33,7 +33,7 @@ Tela de opções para o estoquista
 Tela de listar os produtos para o estoquista
 ![Tela de Listar Produtos ADM](/Imagens/TELAESTOQUISTALISTA.png)
 
-Tela de alterar produtos para o administrador
+Tela de alterar produtos para o estoquista
 ![Tela de Listar Produtos ADM](/Imagens/TELAESTOQUISTAALTERARPRODUTO.png)
 
 
