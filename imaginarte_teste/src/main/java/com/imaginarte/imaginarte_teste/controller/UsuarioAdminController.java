@@ -96,7 +96,7 @@ public class UsuarioAdminController {
         repo.save(usuarioAdmin);
         redirectAttributes.addFlashAttribute("mensagem", "Usuário salvo com sucesso!");
 
-        return "redirect:/usuarios";
+        return "redirect:/login";
     }
 
 
