@@ -1,4 +1,4 @@
-package com.imaginarte.imaginarte_teste.Services;
+package com.imaginarte.imaginarte_teste.Repository;
 
 import com.imaginarte.imaginarte_teste.model.UsuarioAdmin;
 import org.springframework.data.jpa.repository.JpaRepository;

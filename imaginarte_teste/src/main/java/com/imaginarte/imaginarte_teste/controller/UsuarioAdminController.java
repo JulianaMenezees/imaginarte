@@ -1,6 +1,6 @@
 package com.imaginarte.imaginarte_teste.controller;
 
-import com.imaginarte.imaginarte_teste.Services.UsuariosRepository;
+import com.imaginarte.imaginarte_teste.Repository.UsuariosRepository;
 import com.imaginarte.imaginarte_teste.model.DTO.UsuarioAdminDto;
 import com.imaginarte.imaginarte_teste.model.UsuarioAdmin;
 import jakarta.validation.Valid;

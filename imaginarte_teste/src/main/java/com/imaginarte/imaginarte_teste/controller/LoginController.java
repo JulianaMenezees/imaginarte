@@ -1,8 +1,7 @@
 package com.imaginarte.imaginarte_teste.controller;
 
-import com.imaginarte.imaginarte_teste.Services.CookieService;
 import org.springframework.ui.Model;
-import com.imaginarte.imaginarte_teste.Services.UsuariosRepository;
+import com.imaginarte.imaginarte_teste.Repository.UsuariosRepository;
 import com.imaginarte.imaginarte_teste.model.UsuarioAdmin;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.io.UnsupportedEncodingException;
 
 @Controller
 public class LoginController {
@@ -27,22 +24,20 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/dashboard")
-    public String mostrarDashboard() {
+    @GetMapping("/dashboard")
+    public String mostrarDashboard(){
         return "dashboard";
     }
 
-    @PostMapping("/logar")
-    public String loginUsuarioAdmin(UsuarioAdmin usuarioAdmin, Model model, HttpServletResponse response) throws UnsupportedEncodingException {
-        UsuarioAdmin usuarioLogado =  this.ur.login(usuarioAdmin.getEmail(), usuarioAdmin.getSenha());
+   @PostMapping("/logar")
+   public String loginUsuarioAdmin(UsuarioAdmin usuarioAdmin, Model model, HttpServletResponse response){
+        UsuarioAdmin usuarioLogado = this.ur.login(usuarioAdmin.getEmail(), usuarioAdmin.getSenha());
         if(usuarioLogado != null){
-           // CookieService.setCookie(response, "usuarioId", String.ValueOf(usuarioLogado.getId()), 10000);
-           // CookieService.setCookie(response, "nomeUsuario", String.ValueOf(usuarioLogado.getNome()), 10000);
             return "redirect:/dashboard";
         }
-        model.addAttribute("erro", "Usuario Invalido");
+        model.addAttribute("erro", "Usuario Invalido!");
         return "login";
-    }
+   }
 
     @GetMapping("/cadastro")
     public String cadastroUsuarioAdmin() {

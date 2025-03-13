@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Produtos - ImaginArte</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fdf6ec;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            background-color: white;
+            padding: 10px;
+            text-align: left;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff6600;
+            padding-left: 20px;
+        }
+
+        .admin {
+            float: right;
+            margin-right: 20px;
+            font-size: 14px;
+            color: black;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #ff6600;
+            text-align: left;
+            margin-left: 80px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .product {
+            background-color: pink;
+            width: 200px;
+            height: 250px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn-alterar {
+            background-color: #d6d6c2;
+        }
+
+        .btn-habilitar {
+            background-color: #ff9966;
+        }
+
+        .btn-cadastrar {
+            background-color: #ff9966;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        footer {
+            background-color: #9b8bab;
+            color: white;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    IMAGINARTE
+    <span class="admin">Estoquista</span>
+</header>
+
+<div class="container">
+    <h2>LISTA DE PRODUTOS</h2>
+    <div class="product-grid">
+        <!-- 8 produtos -->
+        <div class="product">
+            <div class="buttons">
+                <button class="btn btn-alterar">Alterar</button>
+            </div>
+        </div>
+        <div class="product">
+            <div class="buttons">
+                <button class="btn btn-alterar">Alterar</button>
+            </div>
+        </div>
+        <div class="product">
+            <div class="buttons">
+                <button class="btn btn-alterar">Alterar</button>
+            </div>
+        </div>
+        <div class="product">
+            <div class="buttons">
+                <button class="btn btn-alterar">Alterar</button>
+            </div>
+        </div>
+        <div class="product">
+            <div class="buttons">
+                <button class="btn btn-alterar">Alterar</button>
+            </div>
+        </div>
+        <div class="product">
+            <div class="buttons">
+                <button class="btn btn-alterar">Alterar</button>
+            </div>
+        </div>
+        <div class="product">
+            <div class="buttons">
+                <button class="btn btn-alterar">Alterar</button>
+            </div>
+        </div>
+        <div class="product">
+            <div class="buttons">
+                <button class="btn btn-alterar">Alterar</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    CONTATO: SAC.IMAGINARTE@GMAIL.COM<br>
+    COPYRIGHT © 2025 IMAGINARTE
+</footer>
+</body>
+</html>
