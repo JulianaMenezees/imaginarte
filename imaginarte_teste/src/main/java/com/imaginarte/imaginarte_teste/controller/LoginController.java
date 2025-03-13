@@ -1,5 +1,7 @@
 package com.imaginarte.imaginarte_teste.controller;
 
+import com.imaginarte.imaginarte_teste.service.CookieService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 import com.imaginarte.imaginarte_teste.Repository.UsuariosRepository;
 import com.imaginarte.imaginarte_teste.model.UsuarioAdmin;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.io.UnsupportedEncodingException;
+
 @Controller
 public class LoginController {
 
@@ -25,14 +29,17 @@ public class LoginController {
     }
 
     @GetMapping("/dashboard")
-    public String mostrarDashboard(){
+    public String mostrarDashboard(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
+        model.addAttribute("nome", CookieService.getCookie(request, "nomeUsuario"));
         return "dashboard";
     }
 
    @PostMapping("/logar")
-   public String loginUsuarioAdmin(UsuarioAdmin usuarioAdmin, Model model, HttpServletResponse response){
+   public String loginUsuarioAdmin(UsuarioAdmin usuarioAdmin, Model model, HttpServletResponse response) throws UnsupportedEncodingException {
         UsuarioAdmin usuarioLogado = this.ur.login(usuarioAdmin.getEmail(), usuarioAdmin.getSenha());
         if(usuarioLogado != null){
+            CookieService.setCookie(response, "usuarioId", String.valueOf(usuarioLogado.getId()), 10000);
+            CookieService.setCookie(response, "nomeUsuario", String.valueOf(usuarioLogado.getNome()), 10000);
             return "redirect:/dashboard";
         }
         model.addAttribute("erro", "Usuario Invalido!");
