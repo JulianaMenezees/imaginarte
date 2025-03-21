@@ -16,4 +16,6 @@ public interface UsuariosRepository extends JpaRepository<UsuarioAdmin, Integer>
 
     @Query(value = "select * from imaginarte.usuario_admin where email = :email and senha = :senha", nativeQuery = true)
     public UsuarioAdmin login(String email, String senha);
+
+    UsuarioAdmin findByCpf(String cpf);
 }

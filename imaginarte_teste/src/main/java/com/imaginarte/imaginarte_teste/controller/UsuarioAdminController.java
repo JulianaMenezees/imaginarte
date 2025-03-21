@@ -27,16 +27,13 @@ public class UsuarioAdminController {
         List<UsuarioAdmin> usuarios;
 
         if (search.isEmpty()) {
-            // Se o campo de pesquisa estiver vazio, mostra todos os usuários
             usuarios = repo.findAll(Sort.by(Sort.Direction.ASC, "id"));
         } else {
-            // Caso contrário, faz a busca por nome
             usuarios = repo.findByNomeContainingIgnoreCase(search);
         }
 
-        // Adiciona os dados ao modelo
         model.addAttribute("usuarios", usuarios);
-        model.addAttribute("search", search);  // Adiciona o valor da pesquisa ao modelo
+        model.addAttribute("search", search);
         return "UsuariosAdmin/AllUsuariosAdmin";
     }
 
@@ -48,42 +45,48 @@ public class UsuarioAdminController {
     }
 
     @PostMapping("/cadastro")
-    public String criarUsuario(@Valid @ModelAttribute UsuarioAdminDto usuarioAdminDto,
-                               BindingResult result,
-                               RedirectAttributes redirectAttributes) {
-
+    public String criarOuAtualizarUsuario(@Valid @ModelAttribute UsuarioAdminDto usuarioAdminDto,
+                                          BindingResult result,
+                                          RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "UsuariosAdmin/cadastroUsuarioAdmin";
         }
 
-        UsuarioAdmin usuarioAdmin = repo.findById(usuarioAdminDto.getId()).orElse(null);
-
-        if (usuarioAdmin == null) {
-            // Criando um novo usuário
-            usuarioAdmin = new UsuarioAdmin();
-            usuarioAdmin.setSituacao(true); // Define ativo ao criar
+        // Verifica se o CPF já está sendo utilizado por outro usuário
+        UsuarioAdmin usuarioExistente = repo.findByCpf(usuarioAdminDto.getCpf().replaceAll("\\D", ""));
+        if (usuarioExistente != null && (usuarioAdminDto.getId() == 0 || usuarioExistente.getId() != usuarioAdminDto.getId())) {
+            result.rejectValue("cpf", "cpf.existente", "Este CPF já está cadastrado.");
+            return "UsuariosAdmin/cadastroUsuarioAdmin";
         }
 
-        // Atualiza os dados do usuário
+        UsuarioAdmin usuarioAdmin;
+
+        if (usuarioAdminDto.getId() != 0) {
+            // Editando um usuário existente
+            usuarioAdmin = repo.findById(usuarioAdminDto.getId()).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        } else {
+            // Criando um novo usuário
+            usuarioAdmin = new UsuarioAdmin();
+            usuarioAdmin.setSituacao(true); // Definir como ativo por padrão
+        }
+
+        // Atualiza os dados
         usuarioAdmin.setNome(usuarioAdminDto.getNome());
         usuarioAdmin.setEmail(usuarioAdminDto.getEmail());
-        usuarioAdmin.setSenha(usuarioAdminDto.getSenha());
 
-        // Remove a formatação do CPF
-        String cpfSemFormatacao = usuarioAdminDto.getCpf().replaceAll("\\D", "");
-        usuarioAdmin.setCpf(cpfSemFormatacao);
+        // Atualiza a senha se houver uma nova
+        if (!usuarioAdminDto.getSenha().isEmpty()) {
+            usuarioAdmin.setSenha(usuarioAdminDto.getSenha());
+        }
 
+        usuarioAdmin.setCpf(usuarioAdminDto.getCpf().replaceAll("\\D", ""));
         usuarioAdmin.setGrupo(usuarioAdminDto.getGrupo());
 
         repo.save(usuarioAdmin);
-
         redirectAttributes.addFlashAttribute("mensagem", "Usuário salvo com sucesso!");
 
-        return "redirect:/usuarios"; // Redireciona para a lista de usuários
+        return "redirect:/usuarios";
     }
-
-
-
 
     @GetMapping("/editar-usuario")
     public String showEditarUsuario(@RequestParam int id, Model model) {
@@ -91,7 +94,7 @@ public class UsuarioAdminController {
             UsuarioAdmin usuarioAdmin = repo.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
             UsuarioAdminDto usuarioAdminDto = new UsuarioAdminDto();
-            usuarioAdminDto.setId(usuarioAdmin.getId()); // Preenche o ID para edição
+            usuarioAdminDto.setId(usuarioAdmin.getId());
             usuarioAdminDto.setNome(usuarioAdmin.getNome());
             usuarioAdminDto.setEmail(usuarioAdmin.getEmail());
             usuarioAdminDto.setSenha(usuarioAdmin.getSenha());
@@ -115,7 +118,6 @@ public class UsuarioAdminController {
             return Map.of("erro", "Usuário não encontrado");
         }
 
-        // Atualiza a situação do usuário
         usuario.setSituacao(payload.get("situacao"));
         repo.save(usuario);
 
