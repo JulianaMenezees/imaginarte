@@ -13,8 +13,10 @@
     <div class="formulario">
         <h2>Insira os dados</h2>
 
-        <form method="post" enctype="multipart/form-data" th:object="${usuarioAdminDto}" onsubmit="return validarFormulario(this)">
+        <form th:action="@{/usuarios/cadastro}" method="post" enctype="multipart/form-data"
+              th:object="${usuarioAdminDto}" onsubmit="return validarFormulario(this)">
 
+            <!-- Campo oculto para armazenar o ID do usuário -->
             <input type="hidden" id="id" name="id" th:field="*{id}">
 
             <div class="mb-3">
@@ -27,15 +29,18 @@
             </div>
 
             <div class="mb-3">
-                <input class="form-control" th:field="*{senha}" type="password" id="senha" placeholder="Senha" required>
+                <input class="form-control" th:field="*{senha}" type="password" id="senha" placeholder="Senha"
+                       th:attr="required=${usuarioAdminDto.id == 0}" >
             </div>
 
             <div class="mb-3">
-                <input type="password" name="confirmacao" id="confirmacao" class="form-control" placeholder="Confirme a Senha" required>
+                <input type="password" name="confirmacao" id="confirmacao" class="form-control"
+                       placeholder="Confirme a Senha" th:attr="required=${usuarioAdminDto.id == 0}">
             </div>
 
             <div class="mb-3">
-                <input class="form-control" th:field="*{cpf}" type="text" placeholder="CPF" required>
+                <input class="form-control" th:field="*{cpf}" type="text" placeholder="CPF"
+                       oninput="formatCPF(this)" required>
                 <span th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="text-danger"></span>
             </div>
 
@@ -47,8 +52,9 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
         </form>
+
     </div>
 </div>
 

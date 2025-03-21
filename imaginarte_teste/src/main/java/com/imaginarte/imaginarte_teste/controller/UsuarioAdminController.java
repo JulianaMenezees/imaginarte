@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/usuarios")
@@ -55,26 +56,12 @@ public class UsuarioAdminController {
             return "UsuariosAdmin/cadastroUsuarioAdmin";
         }
 
-        // Verifica se já existe um usuário com o mesmo CPF
-        if (repo.existsByCpf(usuarioAdminDto.getCpf())) {
-            result.rejectValue("cpf", "cpf.existente", "Este CPF já está cadastrado.");
-            return "UsuariosAdmin/cadastroUsuarioAdmin";
-        }
+        UsuarioAdmin usuarioAdmin = repo.findById(usuarioAdminDto.getId()).orElse(null);
 
-        // Verifica se já existe um usuário com o mesmo e-mail
-        if (repo.existsByEmail(usuarioAdminDto.getEmail())) {
-            result.rejectValue("email", "email.existente", "Este e-mail já está cadastrado.");
-            return "UsuariosAdmin/cadastroUsuarioAdmin";
-        }
-
-        UsuarioAdmin usuarioAdmin;
-
-        if (usuarioAdminDto.getId() != 0) {
-            // Busca usuário no banco para atualização
-            usuarioAdmin = repo.findById(usuarioAdminDto.getId()).orElse(new UsuarioAdmin());
-        } else {
+        if (usuarioAdmin == null) {
             // Criando um novo usuário
             usuarioAdmin = new UsuarioAdmin();
+            usuarioAdmin.setSituacao(true); // Define ativo ao criar
         }
 
         // Atualiza os dados do usuário
@@ -82,22 +69,19 @@ public class UsuarioAdminController {
         usuarioAdmin.setEmail(usuarioAdminDto.getEmail());
         usuarioAdmin.setSenha(usuarioAdminDto.getSenha());
 
-        // Limpa a formatação do CPF (remove pontos e hífen)
+        // Remove a formatação do CPF
         String cpfSemFormatacao = usuarioAdminDto.getCpf().replaceAll("\\D", "");
         usuarioAdmin.setCpf(cpfSemFormatacao);
 
         usuarioAdmin.setGrupo(usuarioAdminDto.getGrupo());
 
-        // Se for uma criação, define situação como ativa
-        if (usuarioAdmin.getId() == 0) {
-            usuarioAdmin.setSituacao(true);
-        }
-
         repo.save(usuarioAdmin);
+
         redirectAttributes.addFlashAttribute("mensagem", "Usuário salvo com sucesso!");
 
-        return "redirect:/login";
+        return "redirect:/usuarios"; // Redireciona para a lista de usuários
     }
+
 
 
 
@@ -120,5 +104,21 @@ public class UsuarioAdminController {
             return "redirect:/usuarios";
         }
         return "UsuariosAdmin/cadastroUsuarioAdmin";
+    }
+
+    @PutMapping("/alterarSituacao/{id}")
+    @ResponseBody
+    public Map<String, String> alterarSituacao(@PathVariable int id, @RequestBody Map<String, Boolean> payload) {
+        UsuarioAdmin usuario = repo.findById(id).orElse(null);
+
+        if (usuario == null) {
+            return Map.of("erro", "Usuário não encontrado");
+        }
+
+        // Atualiza a situação do usuário
+        usuario.setSituacao(payload.get("situacao"));
+        repo.save(usuario);
+
+        return Map.of("mensagem", "Situação do usuário alterada com sucesso!");
     }
 }
