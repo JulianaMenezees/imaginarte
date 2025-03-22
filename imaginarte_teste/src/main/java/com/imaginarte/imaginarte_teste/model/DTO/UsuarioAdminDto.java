@@ -24,7 +24,6 @@ public class UsuarioAdminDto {
 
     //getters e setters
 
-
     public int getId() {
         return id;
     }
