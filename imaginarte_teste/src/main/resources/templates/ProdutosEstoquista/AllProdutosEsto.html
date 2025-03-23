@@ -1,162 +1,68 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Produtos - ImaginArte</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fdf6ec;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-
-        header {
-            background-color: white;
-            padding: 10px;
-            text-align: left;
-            font-size: 20px;
-            font-weight: bold;
-            color: #ff6600;
-            padding-left: 20px;
-        }
-
-        .admin {
-            float: right;
-            margin-right: 20px;
-            font-size: 14px;
-            color: black;
-        }
-
-        .container {
-            padding: 20px;
-        }
-
-        h2 {
-            color: #ff6600;
-            text-align: left;
-            margin-left: 80px;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            justify-content: center;
-            padding: 20px;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        .product {
-            background-color: pink;
-            width: 200px;
-            height: 250px;
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 10px;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 5px;
-        }
-
-        .btn {
-            padding: 5px 10px;
-            font-size: 14px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .btn-alterar {
-            background-color: #d6d6c2;
-        }
-
-        .btn-habilitar {
-            background-color: #ff9966;
-        }
-
-        .btn-cadastrar {
-            background-color: #ff9966;
-            color: white;
-            padding: 10px 20px;
-            margin-top: 20px;
-            font-size: 16px;
-        }
-
-        footer {
-            background-color: #9b8bab;
-            color: white;
-            padding: 10px;
-            margin-top: 20px;
-            font-size: 12px;
-        }
-    </style>
+    <title>Imaginarte - Produtos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/allUsuarios.css}" type="text/css">
 </head>
+
 <body>
-<header>
-    IMAGINARTE
-    <span class="admin">Estoquista</span>
-</header>
+
+<!-- Carregando o header -->
+<div id="header"></div>
 
 <div class="container">
-    <h2>LISTA DE PRODUTOS</h2>
-    <div class="product-grid">
-        <!-- 8 produtos -->
-        <div class="product">
-            <div class="buttons">
-                <button class="btn btn-alterar">Alterar</button>
-            </div>
-        </div>
-        <div class="product">
-            <div class="buttons">
-                <button class="btn btn-alterar">Alterar</button>
-            </div>
-        </div>
-        <div class="product">
-            <div class="buttons">
-                <button class="btn btn-alterar">Alterar</button>
-            </div>
-        </div>
-        <div class="product">
-            <div class="buttons">
-                <button class="btn btn-alterar">Alterar</button>
-            </div>
-        </div>
-        <div class="product">
-            <div class="buttons">
-                <button class="btn btn-alterar">Alterar</button>
-            </div>
-        </div>
-        <div class="product">
-            <div class="buttons">
-                <button class="btn btn-alterar">Alterar</button>
-            </div>
-        </div>
-        <div class="product">
-            <div class="buttons">
-                <button class="btn btn-alterar">Alterar</button>
-            </div>
-        </div>
-        <div class="product">
-            <div class="buttons">
-                <button class="btn btn-alterar">Alterar</button>
-            </div>
-        </div>
+    <!-- Linha para os botões -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Formulário de pesquisa alinhado à direita -->
+        <form method="get" action="/usuarios" class="d-flex w-50">
+            <input type="text" name="search"  placeholder="Pesquisar por nome" class="form-control">
+            <button type="submit" class="btn btn-primary ms-2">Pesquisar</button>
+        </form>
     </div>
 
+    <!-- Tabela de usuários -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Quantidade</th>
+            <th>Valor</th>
+            <th>Status</th>
+            <th>Editar Produto</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Exibindo os usuários -->
+        <tr th:each="produtos : ${produtos}">
+            <td th:text="${produtos.id}"></td>
+            <td th:text="${produtos.nome}"></td>
+            <td th:text="${produtos.quantidade}"></td>
+            <td th:text="${produtos.preco}"></td>
+            <td th:text="${produtos.situacao} ? 'Ativo' : 'Inativo'"></td>
+            <td style="white-space: nowrap">
+                <a class="btn btn-primary btn-sm" th:href="@{/produtos/editar-produto(id=${produtos.id})}">Editar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
-<footer>
-    CONTATO: SAC.IMAGINARTE@GMAIL.COM<br>
-    COPYRIGHT © 2025 IMAGINARTE
-</footer>
+<!-- Scripts -->
+<script>
+    fetch('headerAdmin.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header').innerHTML = data;
+        })
+        .catch(error => console.error('Erro ao carregar o header:', error));
+</script>
+
+<!-- Importando Bootstrap (JavaScript) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

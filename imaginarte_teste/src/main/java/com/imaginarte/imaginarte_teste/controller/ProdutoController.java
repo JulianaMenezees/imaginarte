@@ -97,6 +97,23 @@ public class ProdutoController {
         return "ProdutosAdmin/cadastroProdutoAdmin";
     }
 
+    @GetMapping("/editar-produto-estoquista")
+    public String showEditarProdutoEstoquista(@RequestParam int id, Model model) {
+        try {
+            ProdutoAdmin produtoAdmin = repository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+            ProdutoAdminDto produtoAdminDto = new ProdutoAdminDto();
+            produtoAdminDto.setId(produtoAdminDto.getId());
+            produtoAdminDto.setQuantidade(produtoAdminDto.getQuantidade());
+
+            model.addAttribute("produtoAdminDto", produtoAdminDto);
+        } catch (Exception ex) {
+            System.out.println("Erro: " + ex.getMessage());
+            return "redirect:/produtos";
+        }
+        return "ProdutosEstoquista/AllProdutosEsto";
+    }
+
     @PutMapping("/alterarSituacao/{id}")
     @ResponseBody
     public Map<String, String> alterarSituacao(@PathVariable int id, @RequestBody Map<String, Boolean> payload) {

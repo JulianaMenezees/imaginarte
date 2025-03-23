@@ -35,13 +35,25 @@ public class LoginController {
         return "dashboard";
     }
 
+    @GetMapping("/dashboardEstoquista")
+    public String mostrarDashboardEstoquista(Model model, HttpServletRequest request) throws UnsupportedEncodingException {
+        model.addAttribute("nome", CookieService.getCookie(request, "nomeUsuario"));
+        return "dashboardEstoquista";
+    }
+
    @PostMapping("/logar")
    public String loginUsuarioAdmin(UsuarioAdmin usuarioAdmin, Model model, HttpServletResponse response) throws UnsupportedEncodingException {
         UsuarioAdmin usuarioLogado = this.ur.login(usuarioAdmin.getEmail(), usuarioAdmin.getSenha());
         if(usuarioLogado != null){
             CookieService.setCookie(response, "usuarioId", String.valueOf(usuarioLogado.getId()), 10000);
             CookieService.setCookie(response, "nomeUsuario", String.valueOf(usuarioLogado.getNome()), 10000);
-            return "redirect:/dashboard";
+            CookieService.setCookie(response, "roleUsuario", String.valueOf(usuarioLogado.getSenha()), 10000);
+
+            if("Administrador".equals(usuarioLogado.getGrupo())){
+                return "redirect:dashboard";
+            } else if ("Estoquista".equals(usuarioLogado.getGrupo())) {
+                return "redirect:dashboardEstoquista";
+            }
         }
         model.addAttribute("erro", "Usuario Invalido!");
         return "login";
