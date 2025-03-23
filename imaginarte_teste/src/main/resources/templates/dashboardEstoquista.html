@@ -26,6 +26,7 @@
       justify-content: center;
       align-items: center;
       height: 70vh;
+      gap: 20px;
     }
     .card {
       background-color: #f4a07a;
@@ -54,10 +55,12 @@
 <body>
 <header>
   <div class="logo">IMAGINARTE</div>
-  <div>Estoquista</div>
+  <a class="nav-link" href="login">Logout</a>
+  <div>Estoquista <span th:text="${nome}"></span>
+  </div>
 </header>
 <div class="container">
-  <a href="outra_pagina.html" class="card">
+  <a href="/produtos" class="card">
     <p><strong>PRODUTOS</strong></p>
     <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Ícone de etiqueta">
   </a>

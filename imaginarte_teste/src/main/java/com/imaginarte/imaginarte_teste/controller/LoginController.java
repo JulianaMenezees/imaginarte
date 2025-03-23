@@ -1,6 +1,7 @@
 package com.imaginarte.imaginarte_teste.controller;
 
 import com.imaginarte.imaginarte_teste.service.CookieService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 import com.imaginarte.imaginarte_teste.Repository.UsuariosRepository;
@@ -61,4 +62,19 @@ public class LoginController {
 
         return "redirect:/login";
     }
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        // Invalidar a sessão do Spring
+        request.getSession().invalidate();
+
+        // Adicionar lógica para limpar o cookie
+        Cookie logoutCookie = new Cookie("JSESSIONID", null);
+        logoutCookie.setMaxAge(0); // Expira o cookie
+        logoutCookie.setPath("/"); // Garante que o cookie de logout será removido
+        response.addCookie(logoutCookie);
+
+        return "redirect:/login"; // Redireciona para a página de login
+    }
+
 }
