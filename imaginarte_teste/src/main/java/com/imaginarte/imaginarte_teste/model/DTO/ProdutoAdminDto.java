@@ -65,12 +65,11 @@ public class ProdutoAdminDto {
     }
 
     @NotNull
-    @Min(1)
     public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(@NotNull @Min(1) int quantidade) {
+    public void setQuantidade(@NotNull int quantidade) {
         this.quantidade = quantidade;
     }
 }

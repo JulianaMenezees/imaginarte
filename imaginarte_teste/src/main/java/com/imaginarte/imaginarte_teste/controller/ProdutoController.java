@@ -94,7 +94,7 @@ public class ProdutoController {
             System.out.println("Erro: " + ex.getMessage());
             return "redirect:/produtos";
         }
-        return "ProdutoAdmin/CadastroProdutoAdmin";
+        return "ProdutosAdmin/cadastroProdutoAdmin";
     }
 
     @PutMapping("/alterarSituacao/{id}")

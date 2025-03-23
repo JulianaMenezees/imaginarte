@@ -20,15 +20,7 @@
       <input type="hidden" id="id" name="id" th:field="*{id}">
 
       <div class="mb-3">
-        <input class="form-control" th:field="*{nome}" type="text" placeholder="Nome Produto" required>
-      </div>
-
-      <div class="mb-3">
-        <input class="form-control" th:field="*{avaliacao}" type="text" placeholder="Avaliação" required>
-      </div>
-
-      <div class="mb-3">
-        <input class="form-control" th:field="*{descricao}" type="text" placeholder="Descrição" required>
+        <input class="form-control" th:field="*{nome}" type="text" placeholder="Nome do Produto" required>
       </div>
 
       <div class="mb-3">
@@ -39,10 +31,22 @@
         <input class="form-control" th:field="*{quantidade}" type="text" placeholder="Quantidade" required>
       </div>
 
+      <div class="mb-3">
+        <input class="form-control" th:field="*{descricao}" type="text" placeholder="Descrição" required>
+      </div>
+
+      <div class="mb-3">
+        <input class="form-control" th:field="*{avaliacao}" type="text" placeholder="Avaliação" required>
+      </div>
+
       <button type="submit" class="btn btn-primary">Salvar</button>
+
+      <a th:href="@{/produtos}" class="btn btn-primary">Cancelar</a>
+
     </form>
 
   </div>
 </div>
+
 </body>
 </html>
