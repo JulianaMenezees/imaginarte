@@ -67,7 +67,6 @@ public class ProdutoController {
         produtoAdmin.setAvaliacao(produtoAdminDto.getAvaliacao());
         produtoAdmin.setDescricao(produtoAdminDto.getDescricao());
         produtoAdmin.setPreco(produtoAdminDto.getPreco());
-        produtoAdmin.setPreco(produtoAdminDto.getPreco());
         produtoAdmin.setQuantidade(produtoAdminDto.getQuantidade());
 
         repository.save(produtoAdmin);
@@ -82,12 +81,12 @@ public class ProdutoController {
             ProdutoAdmin produtoAdmin = repository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
             ProdutoAdminDto produtoAdminDto = new ProdutoAdminDto();
-            produtoAdminDto.setId(produtoAdminDto.getId());
-            produtoAdminDto.setNome(produtoAdminDto.getNome());
-            produtoAdminDto.setAvaliacao(produtoAdminDto.getAvaliacao());
-            produtoAdminDto.setDescricao(produtoAdminDto.getDescricao());
-            produtoAdminDto.setPreco(produtoAdminDto.getPreco());
-            produtoAdminDto.setQuantidade(produtoAdminDto.getQuantidade());
+            produtoAdminDto.setId(produtoAdmin.getId());
+            produtoAdminDto.setNome(produtoAdmin.getNome());
+            produtoAdminDto.setAvaliacao(produtoAdmin.getAvaliacao());
+            produtoAdminDto.setDescricao(produtoAdmin.getDescricao());
+            produtoAdminDto.setPreco(produtoAdmin.getPreco());
+            produtoAdminDto.setQuantidade(produtoAdmin.getQuantidade());
 
             model.addAttribute("produtoAdminDto", produtoAdminDto);
         } catch (Exception ex) {

@@ -17,7 +17,7 @@
     <!-- Linha para os botões -->
     <div class="d-flex justify-content-between mb-4">
         <!-- Formulário de pesquisa alinhado à direita -->
-        <form method="get" action="/usuarios" class="d-flex w-50">
+        <form method="get" action="/produtos" class="d-flex w-50">
             <input type="text" name="search"  placeholder="Pesquisar por nome" class="form-control">
             <button type="submit" class="btn btn-primary ms-2">Pesquisar</button>
         </form>
@@ -53,7 +53,7 @@
 
 <!-- Scripts -->
 <script>
-    fetch('headerAdmin.html')
+    fetch('headerEsto.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('header').innerHTML = data;
