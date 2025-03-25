@@ -52,7 +52,7 @@
         <a class="btn btn-primary btn-sm" th:href="@{/produtos/editar-produto(id=${produtos.id})}">Editar</a>
       </td>
       <td style="white-space: nowrap">
-        <a class="btn btn-primary btn-sm" th:href="@{/produtos/visualizar-produto(id=${produtos.id})}">Visualizar</a>
+        <a class="btn btn-primary btn-sm" th:href="@{/produtos/visualizarProduto/{id}(id=${produtos.id})}">Visualizar</a>
       </td>
       <td style="white-space: nowrap">
         <label class="switch">

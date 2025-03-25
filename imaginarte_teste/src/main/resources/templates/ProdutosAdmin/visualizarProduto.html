@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualizar Produto</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2>Detalhes do Produto</h2>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Campo</th>
+      <th>Valor</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><strong>ID</strong></td>
+      <td th:text="${produto.id}"></td>
+    </tr>
+    <tr>
+      <td><strong>Nome</strong></td>
+      <td th:text="${produto.nome}"></td>
+    </tr>
+    <tr>
+      <td><strong>Descrição</strong></td>
+      <td th:text="${produto.descricao}"></td>
+    </tr>
+    <tr>
+      <td><strong>Preço</strong></td>
+      <td th:text="${produto.preco}"></td>
+    </tr>
+    <tr>
+      <td><strong>Quantidade</strong></td>
+      <td th:text="${produto.quantidade}"></td>
+    </tr>
+    <tr>
+      <td><strong>Avaliação</strong></td>
+      <td th:text="${produto.avaliacao}"></td>
+    </tr>
+    <tr>
+      <td><strong>Situação</strong></td>
+      <td th:text="${produto.situacao ? 'Ativo' : 'Inativo'}"></td>
+    </tr>
+    <tr>
+      <td><strong>Imagem</strong></td>
+      <td>
+        <div class="image-container">
+          <img th:src="@{'/uploads/' + ${produto.imagemPath}}" alt="Imagem do Produto" class="img-fluid" style="max-width: 300px;">
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <a href="/produtos" class="btn btn-primary">Voltar para a lista de produtos</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

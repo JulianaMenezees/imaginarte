@@ -3,6 +3,7 @@ package com.imaginarte.imaginarte_teste.model.DTO;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ProdutoAdminDto {
 
@@ -23,6 +24,16 @@ public class ProdutoAdminDto {
     @NotNull
     @Min(1)
     private int quantidade;
+
+    private MultipartFile imagem;
+
+    public MultipartFile getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(MultipartFile imagem) {
+        this.imagem = imagem;
+    }
 
     public int getId() {
         return id;

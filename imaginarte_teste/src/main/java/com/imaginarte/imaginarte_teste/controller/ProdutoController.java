@@ -2,9 +2,9 @@ package com.imaginarte.imaginarte_teste.controller;
 
 import com.imaginarte.imaginarte_teste.Repository.ProdutosRepository;
 import com.imaginarte.imaginarte_teste.model.DTO.ProdutoAdminDto;
-import com.imaginarte.imaginarte_teste.model.DTO.UsuarioAdminDto;
 import com.imaginarte.imaginarte_teste.model.ProdutoAdmin;
-import com.imaginarte.imaginarte_teste.model.UsuarioAdmin;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -14,8 +14,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/produtos")
@@ -49,7 +54,7 @@ public class ProdutoController {
     @PostMapping("/cadastroProduto")
     public String criarOuAtualizarProduto(@Valid @ModelAttribute ProdutoAdminDto produtoAdminDto,
                                           BindingResult result,
-                                          RedirectAttributes redirectAttributes) {
+                                          RedirectAttributes redirectAttributes) throws IOException {
         if (result.hasErrors()) {
             return "ProdutosAdmin/cadastroProdutoAdmin";
         }
@@ -68,6 +73,30 @@ public class ProdutoController {
         produtoAdmin.setDescricao(produtoAdminDto.getDescricao());
         produtoAdmin.setPreco(produtoAdminDto.getPreco());
         produtoAdmin.setQuantidade(produtoAdminDto.getQuantidade());
+
+        if (!Files.exists(Paths.get("uploads"))) {
+            Files.createDirectories(Paths.get("uploads"));
+        }
+
+        if (!produtoAdminDto.getImagem().isEmpty()) {
+            String fileName = UUID.randomUUID() + "_" + produtoAdminDto.getImagem().getOriginalFilename();
+            Path uploadDir = Paths.get("uploads"); // Diretório de upload
+            Path filePath = uploadDir.resolve(fileName); // Caminho completo do arquivo
+
+            try {
+                // Criar diretório se não existir
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
+                }
+
+                // Salvar arquivo
+                Files.copy(produtoAdminDto.getImagem().getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                produtoAdmin.setImagemPath(fileName); // Salvar apenas o nome do arquivo no banco
+            } catch (IOException e) {
+                throw new RuntimeException("Erro ao salvar a imagem", e);
+            }
+        }
+
 
         repository.save(produtoAdmin);
         redirectAttributes.addFlashAttribute("mensagem", "Produto salvo com sucesso!");
@@ -127,5 +156,16 @@ public class ProdutoController {
 
         return Map.of("mensagem", "Situação do produto alterada com sucesso!");
     }
+
+    @GetMapping("/visualizarProduto/{id}")
+    public String visualizarProduto(@PathVariable int id, Model model) {
+        ProdutoAdmin produto = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+        model.addAttribute("produto", produto);
+        return "ProdutosAdmin/visualizarProduto";
+    }
+
+
 
 }

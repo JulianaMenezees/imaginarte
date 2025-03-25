@@ -28,6 +28,16 @@ public class ProdutoAdmin {
     @Column(nullable = false)
     private boolean situacao;
 
+    private String imagemPath;
+
+    public String getImagemPath() {
+        return imagemPath;
+    }
+
+    public void setImagemPath(String imagemPath) {
+        this.imagemPath = imagemPath;
+    }
+
     public int getId() {
         return id;
     }
