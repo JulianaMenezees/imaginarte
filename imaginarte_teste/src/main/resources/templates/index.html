@@ -7,6 +7,42 @@
 
     <!-- Importando Bootstrap para estilização -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .produtos {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+        .produto-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 200px;
+        }
+        .produto-card img {
+            width: 100%;
+            border-radius: 5px;
+        }
+        .produto-card h3 {
+            margin: 10px 0;
+        }
+        .detalhes-btn {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .detalhes-btn:hover {
+            background: #218838;
+        }
+    </style>
 </head>
 <body>
 
@@ -14,9 +50,43 @@
 <div id="header"></div>
 
 <div class="container mt-5">
-    <h1>Bem-vindo ao Imaginarte!</h1>
-    <p>Esta é a página inicial.</p>
+    <h1>Bem-vindo a Imaginarte!</h1>
 </div>
+
+<main>
+    <section class="produtos">
+        <div class="produto-card">
+            <img src="produto1.jpg" alt="Produto 1">
+            <h3>Caneta</h3>
+            <p>R$ 9,90</p>
+            <a href="detalhes.html" class="detalhes-btn">Detalhes</a>
+        </div>
+        <div class="produto-card">
+            <img src="produto2.jpg" alt="Produto 2">
+            <h3>Caderno</h3>
+            <p>R$ 49,90</p>
+            <a href="detalhes.html" class="detalhes-btn">Detalhes</a>
+        </div>
+        <div class="produto-card">
+            <img src="produto3.jpg" alt="Produto 3">
+            <h3>Mochila</h3>
+            <p>R$ 149,90</p>
+            <a href="detalhes.html" class="detalhes-btn">Detalhes</a>
+        </div>
+        <div class="produto-card">
+            <img src="produto4.jpg" alt="Produto 4">
+            <h3>Estojo</h3>
+            <p>R$ 29,90</p>
+            <a href="detalhes.html" class="detalhes-btn">Detalhes</a>
+        </div>
+        <div class="produto-card">
+            <img src="produto5.jpg" alt="Produto 5">
+            <h3>Lapis</h3>
+            <p>R$ 19,90</p>
+            <a href="detalhes.html" class="detalhes-btn">Detalhes</a>
+        </div>
+    </section>
+</main>
 
 <!-- Importando o Header via JavaScript -->
 <script>
