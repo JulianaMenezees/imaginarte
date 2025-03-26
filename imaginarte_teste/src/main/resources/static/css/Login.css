@@ -1,0 +1,77 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #FFF8EF;
+    font-family: "Arial", serif;
+    margin: 0;
+}
+
+h2 {
+    color: #FEB6C6;
+    font-weight: bold;
+    text-align: center;
+}
+
+.login-container {
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 3px solid #FEB6C6;
+    border-radius: 10px;
+    background: #FFF8EF;
+    padding: 20px;
+}
+
+.jumbotron {
+    background: #FFF8EF;
+    border: 0;
+    padding: 20px;
+    margin-bottom: 0;
+}
+
+.input-group-text {
+    background-color: #FEB6C6;
+    color: #FFF8EF;
+    border-radius: 0.25rem 0 0 0.25rem;
+    border: 1px solid #FEB6C6;
+}
+
+.input-group-prepend .input-group-text {
+    border-right: 0;
+}
+
+.form-control {
+    border-radius: 0 0.25rem 0.25rem 0;
+    border: 1px solid #FEB6C6;
+}
+
+.btn-primary {
+    background: #A0E6B2;
+    border: 0;
+    transition: background 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background: #87D39E;
+}
+
+.alert {
+    margin-top: 10px;
+}
+
+/* Estilizando o botão de exibição de senha */
+.input-group-append .btn {
+    border: 1px solid #FEB6C6;
+    background: #FFF8EF;
+    color: #FEB6C6;
+    cursor: pointer;
+}
+
+.input-group-append .btn:hover {
+    background: #FEB6C6;
+    color: white;
+}
+
+

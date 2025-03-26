@@ -24,15 +24,19 @@ body {
 }
 
 .btn-primary {
+    background-color: #A0E6B2;
+    color: #FFF8EF;
+    border-radius: 5px;
     display: block;
     margin: 0 auto;
-    background-color: #A0E6B2;
-    border: 0;
-    border-radius: 5px;
-    color: #FFF8EF;
     width: 300px;
     height: 37px;
     margin-top: 25px;
+}
+
+.btn-primary:hover {
+    background-color: #87D39E !important;  /* Adicionei o !important para garantir que o hover funcione */
+    cursor: pointer;  /* Adiciona um cursor pointer para indicar que é clicável */
 }
 
 .form-control{
@@ -53,3 +57,4 @@ h2 {
     color: #FEB6C6;
     text-align: center;
 }
+

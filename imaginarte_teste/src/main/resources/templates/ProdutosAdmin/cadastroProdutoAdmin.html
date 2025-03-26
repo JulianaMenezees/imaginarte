@@ -11,6 +11,7 @@
 
 <div class="container">
   <div class="formulario">
+
     <h2>Insira os dados</h2>
 
     <form th:action="@{/produtos/cadastroProduto}" method="post" enctype="multipart/form-data"
@@ -43,7 +44,10 @@
 
       <button type="submit" class="btn btn-primary">Salvar</button>
 
-      <a th:href="@{/produtos}" class="btn btn-primary">Cancelar</a>
+      <button type="button" class="btn btn-primary" th:onclick="|window.location.href='@{/produtos}'|">Cancelar</button>
+
+
+
 
     </form>
 
