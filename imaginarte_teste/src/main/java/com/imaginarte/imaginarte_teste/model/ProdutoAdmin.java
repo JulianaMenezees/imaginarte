@@ -2,6 +2,9 @@ package com.imaginarte.imaginarte_teste.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "produto")
 public class ProdutoAdmin {
@@ -28,14 +31,15 @@ public class ProdutoAdmin {
     @Column(nullable = false)
     private boolean situacao;
 
-    private String imagemPath;
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Imagem> imagens = new ArrayList<>();
 
-    public String getImagemPath() {
-        return imagemPath;
+    public List<Imagem> getImagens() {
+        return imagens;
     }
 
-    public void setImagemPath(String imagemPath) {
-        this.imagemPath = imagemPath;
+    public void setImagens(List<Imagem> imagens) {
+        this.imagens = imagens;
     }
 
     public int getId() {

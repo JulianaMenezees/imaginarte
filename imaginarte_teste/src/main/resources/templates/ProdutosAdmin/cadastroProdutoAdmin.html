@@ -17,7 +17,7 @@
     <form th:action="@{/produtos/cadastroProduto}" method="post" enctype="multipart/form-data"
           th:object="${produtoAdminDto}" onsubmit="return validarFormulario(this)">
 
-      <!-- Campo oculto para armazenar o ID do usuário -->
+      <!-- Campo oculto para armazenar o ID do produto -->
       <input type="hidden" id="id" name="id" th:field="*{id}">
 
       <div class="mb-3">
@@ -40,19 +40,39 @@
         <input class="form-control" th:field="*{avaliacao}" type="text" placeholder="Avaliação" required>
       </div>
 
-        <input type="file" name="imagem" accept="image/*" required> <!-- Input para a imagem -->
+      <!-- Input para múltiplas imagens -->
+      <div class="mb-3">
+        <input type="file" name="imagens" accept="image/*" multiple required onchange="previewImagens(event)">
+        <div id="preview-container"></div> <!-- Área para pré-visualizar imagens -->
+      </div>
 
       <button type="submit" class="btn btn-primary">Salvar</button>
 
       <button type="button" class="btn btn-primary" th:onclick="|window.location.href='@{/produtos}'|">Cancelar</button>
 
-
-
-
     </form>
 
   </div>
 </div>
+
+<script>
+  function previewImagens(event) {
+    const previewContainer = document.getElementById('preview-container');
+    previewContainer.innerHTML = ''; // Limpa o preview antes de adicionar novas imagens
+
+    for (let file of event.target.files) {
+      let reader = new FileReader();
+      reader.onload = function (e) {
+        let img = document.createElement('img');
+        img.src = e.target.result;
+        img.style.width = '100px';
+        img.style.margin = '5px';
+        previewContainer.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+</script>
 
 </body>
 </html>

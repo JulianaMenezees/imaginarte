@@ -1,9 +1,12 @@
 package com.imaginarte.imaginarte_teste.model.DTO;
 
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public class ProdutoAdminDto {
 
@@ -25,14 +28,15 @@ public class ProdutoAdminDto {
     @Min(1)
     private int quantidade;
 
-    private MultipartFile imagem;
+    @Transient
+    private List<MultipartFile> imagens;
 
-    public MultipartFile getImagem() {
-        return imagem;
+    public List<MultipartFile> getImagens() {
+        return imagens;
     }
 
-    public void setImagem(MultipartFile imagem) {
-        this.imagem = imagem;
+    public void setImagens(List<MultipartFile> imagens) {
+        this.imagens = imagens;
     }
 
     public int getId() {
