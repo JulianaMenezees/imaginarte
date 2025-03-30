@@ -172,4 +172,11 @@ public class ProdutoController {
         model.addAttribute("produto", produto);
         return "ProdutosAdmin/visualizarProduto";
     }
+
+    @GetMapping("/index")
+    public String index(Model model) {
+        List<ProdutoAdmin> produtos = repository.findAll();
+        model.addAttribute("produtos", produtos != null ? produtos : new ArrayList<>());
+        return "index";
+    }
 }
