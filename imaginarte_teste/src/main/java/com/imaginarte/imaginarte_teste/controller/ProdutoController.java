@@ -179,4 +179,14 @@ public class ProdutoController {
         model.addAttribute("produtos", produtos != null ? produtos : new ArrayList<>());
         return "index";
     }
+
+    @GetMapping("detalhesProduto/{id}")
+    public String detalhesProduto(@PathVariable int id, Model model) {
+        System.out.println("Acessando detalhes do produto com ID: " + id);
+        ProdutoAdmin produto = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+        model.addAttribute("produto", produto);
+        return "detalhesProduto";
+    }
 }
