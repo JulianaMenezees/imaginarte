@@ -15,11 +15,28 @@
     header {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       padding: 10px 20px;
       font-weight: bold;
+      background-color: #b49bae;
     }
     .logo {
       color: orange;
+      font-size: 20px;
+    }
+    .logout-btn {
+      background-color: #ff6347;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .logout-btn:hover {
+      background-color: #d43f2f;
     }
     .container {
       display: flex;
@@ -55,9 +72,8 @@
 <body>
 <header>
   <div class="logo">IMAGINARTE</div>
-    <a class="nav-link" href="login">Logout</a>
-  <div>Administrador <span th:text="${nome}"></span>
-  </div>
+  <a href="login" class="logout-btn">Logout</a>
+  <div>Administrador <span th:text="${nome}"></span></div>
 </header>
 <div class="container">
   <a href="/produtos" class="card">
