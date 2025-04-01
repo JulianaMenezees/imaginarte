@@ -18,14 +18,14 @@
       align-items: center;
       padding: 10px 20px;
       font-weight: bold;
-      background-color: #b49bae;
+      background-color: #6c5b7b;
     }
     .logo {
-      color: orange;
+      color: #f8b195;
       font-size: 20px;
     }
     .logout-btn {
-      background-color: #ff6347;
+      background-color: #f8b195;
       color: white;
       padding: 8px 15px;
       border: none;
@@ -36,7 +36,7 @@
       transition: background-color 0.3s;
     }
     .logout-btn:hover {
-      background-color: #d43f2f;
+      background-color: #DA9C83;
     }
     .container {
       display: flex;
@@ -54,18 +54,34 @@
       text-decoration: none;
       color: black;
       display: inline-block;
+      transition: background-color 0.3s;
+    }
+    .card:hover {
+      background-color: #D88E6C;
     }
     .card img {
       width: 30px;
       height: 30px;
     }
     footer {
-      background-color: #b49bae;
+      background-color: #6c5b7b;
       padding: 10px;
       font-size: 12px;
       position: fixed;
       width: 100%;
       bottom: 0;
+      color: #fdf6ef;
+    }
+    .nome{
+      color: #f8b195;
+    }
+
+    .titulo {
+      color: #fdf6ef;
+    }
+
+    img {
+      filter: invert(90%) sepia(10%) saturate(200%) hue-rotate(10deg);
     }
   </style>
 </head>
@@ -73,15 +89,15 @@
 <header>
   <div class="logo">IMAGINARTE</div>
   <a href="login" class="logout-btn">Logout</a>
-  <div>Administrador <span th:text="${nome}"></span></div>
+  <div class="nome">Administrador <span th:text="${nome}"></span></div>
 </header>
 <div class="container">
   <a href="/produtos" class="card">
-    <p><strong>PRODUTOS</strong></p>
+    <p class="titulo"><strong>PRODUTOS</strong></p>
     <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Ícone de etiqueta">
   </a>
   <a href="/usuarios" class="card">
-    <p><strong>USUÁRIOS</strong></p>
+    <p class="titulo"><strong>USUÁRIOS</strong></p>
     <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="Ícone de usuários">
   </a>
 </div>
