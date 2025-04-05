@@ -1,8 +1,9 @@
 package com.imaginarte.imaginarte_teste.Repository;
 
+import com.imaginarte.imaginarte_teste.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UsuarioRepository extends JpaRepository<UsuarioRepository, Integer> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     boolean existsByCpf(String cpf);
 

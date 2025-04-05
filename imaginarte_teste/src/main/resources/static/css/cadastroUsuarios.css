@@ -1,0 +1,97 @@
+body {
+    background-color: #FFF8EF;
+    font-family: "Arial", serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.formulario {
+    text-align: center;
+    border: 4px solid #FEB6C6;
+    border-radius: 10px;
+    padding: 30px;
+    background-color: #FFF8EF;
+    width: 350px;
+    overflow: hidden;
+    position: relative;
+}
+
+h2 {
+    color: #FEB6C6;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 300px;
+    height: 37px;
+    border-radius: 5px;
+    border: 1px solid #FEB6C6;
+    margin: 5px auto;
+    display: block;
+    padding: 5px 10px;
+}
+
+input::placeholder {
+    color: #FEB6C6;
+}
+
+.btn-primary {
+    background-color: #A0E6B2;
+    color: #FFF8EF;
+    border: none;
+    border-radius: 5px;
+    display: block;
+    margin: 10px auto;
+    width: 300px;
+    height: 37px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #87D39E !important;
+    cursor: pointer;
+}
+
+/* Container para esconder overflow das etapas */
+.step-container {
+    width: 1000px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* Wrapper que permite o efeito de transição horizontal */
+.steps-wrapper {
+    display: flex;
+    width: 700px; /* 2 x 350px */
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Cada etapa ocupa exatamente o tamanho do card */
+.step {
+    width: 350px;
+    padding: 0 10px;
+    flex-shrink: 0;
+}
+
+/* Controla exibição por JS */
+.step.active {
+    display: block;
+}
+
+/* Mensagem de erro */
+.text-danger {
+    color: red;
+    font-size: 0.85rem;
+    text-align: left;
+    margin-left: 25px;
+}
