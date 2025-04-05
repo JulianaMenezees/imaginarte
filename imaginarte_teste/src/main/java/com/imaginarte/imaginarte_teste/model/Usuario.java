@@ -14,6 +14,7 @@ import java.time.LocalDate;
 public class Usuario {
 
     @Id
+    @Getter @Setter
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
