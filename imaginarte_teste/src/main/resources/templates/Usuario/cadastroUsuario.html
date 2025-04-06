@@ -24,8 +24,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <input class="form-control" th:field="*{email}" type="email" placeholder="Email" required>
-                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
+                            <input class="form-control" th:field="*{email}" type="email" placeholder="Email" onblur="verificarEmail(this)" required>
+                            <span id="erro-email" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
@@ -37,8 +37,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <input class="form-control" th:field="*{cpf}" type="text" placeholder="CPF" oninput="formatCPF(this)" required>
-                            <span th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="text-danger"></span>
+                            <input class="form-control" th:field="*{cpf}" type="text" placeholder="CPF" oninput="formatCPF(this)" onblur="verificarCpf(this)" required>
+                            <span id="erro-cpf" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
@@ -59,37 +59,60 @@
 
                     <!-- Etapa 2: Endereço -->
                     <div class="step" id="step2">
-                        <div class="mb-3">
-                            <input class="form-control" th:field="*{cep}" id="cep" type="text" placeholder="CEP" required>
-                        </div>
+                        <input type="text" id="cep" name="cep" class="form-control" placeholder="CEP">
+                        <span class="text-danger" th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}"></span>
 
-                        <div class="mb-3">
-                            <input class="form-control" th:field="*{logradouro}" id="logradouro" type="text" placeholder="Logradouro" required>
-                        </div>
+                        <input type="text" id="logradouro" name="logradouro" class="form-control" placeholder="Logradouro">
+                        <span class="text-danger" th:if="${#fields.hasErrors('logradouro')}" th:errors="*{logradouro}"></span>
 
-                        <div class="mb-3">
-                            <input class="form-control" th:field="*{numero}" type="text" placeholder="Número" required>
-                        </div>
+                        <input type="text" id="numero" name="numero" class="form-control" placeholder="Número">
+                        <span class="text-danger" th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}"></span>
 
-                        <div class="mb-3">
-                            <input class="form-control" th:field="*{complemento}" type="text" placeholder="Complemento">
-                        </div>
+                        <input type="text" id="complemento" name="complemento" class="form-control" placeholder="Complemento (opcional)">
+                        <span class="text-danger" th:if="${#fields.hasErrors('complemento')}" th:errors="*{complemento}"></span>
 
-                        <div class="mb-3">
-                            <input class="form-control" th:field="*{bairro}" id="bairro" type="text" placeholder="Bairro" required>
-                        </div>
+                        <input type="text" id="bairro" name="bairro" class="form-control" placeholder="Bairro">
+                        <span class="text-danger" th:if="${#fields.hasErrors('bairro')}" th:errors="*{bairro}"></span>
 
-                        <div class="mb-3">
-                            <input class="form-control" th:field="*{cidade}" id="cidade" type="text" placeholder="Cidade" required>
-                        </div>
+                        <input type="text" id="cidade" name="cidade" class="form-control" placeholder="Cidade">
+                        <span class="text-danger" th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}"></span>
 
-                        <div class="mb-3">
-                            <input class="form-control" th:field="*{uf}" id="uf" type="text" placeholder="UF" maxlength="2" required>
-                        </div>
+                        <select id="uf" name="uf" class="form-control">
+                            <option value="">UF</option>
+                            <option value="AC">AC</option>
+                            <option value="AL">AL</option>
+                            <option value="AP">AP</option>
+                            <option value="AM">AM</option>
+                            <option value="BA">BA</option>
+                            <option value="CE">CE</option>
+                            <option value="DF">DF</option>
+                            <option value="ES">ES</option>
+                            <option value="GO">GO</option>
+                            <option value="MA">MA</option>
+                            <option value="MT">MT</option>
+                            <option value="MS">MS</option>
+                            <option value="MG">MG</option>
+                            <option value="PA">PA</option>
+                            <option value="PB">PB</option>
+                            <option value="PR">PR</option>
+                            <option value="PE">PE</option>
+                            <option value="PI">PI</option>
+                            <option value="RJ">RJ</option>
+                            <option value="RN">RN</option>
+                            <option value="RS">RS</option>
+                            <option value="RO">RO</option>
+                            <option value="RR">RR</option>
+                            <option value="SC">SC</option>
+                            <option value="SP">SP</option>
+                            <option value="SE">SE</option>
+                            <option value="TO">TO</option>
+                        </select>
+                        <span class="text-danger" th:if="${#fields.hasErrors('uf')}" th:errors="*{uf}"></span>
 
-                        <button type="button" class="btn btn-primary" onclick="prevStep()">Voltar</button>
-                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                        <button type="submit" class="btn-primary">Finalizar</button>
+                        <button type="button" class="btn-secondary" onclick="prevStep()">Voltar</button>
                     </div>
+
 
                 </div>
             </div>
@@ -176,6 +199,52 @@
                 .catch(() => alert("Erro ao buscar o CEP."));
         }
     });
+
+    async function verificarEmail(input) {
+        const email = input.value;
+        const erroSpan = document.getElementById("erro-email");
+
+        if (!email || email.length < 5) {
+            erroSpan.textContent = "";
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/usuario/verificar-email?email=${encodeURIComponent(email)}`);
+            const existe = await response.json();
+
+            if (existe) {
+                erroSpan.textContent = "Este e-mail já está cadastrado.";
+            } else {
+                erroSpan.textContent = "";
+            }
+        } catch (err) {
+            console.error("Erro ao verificar e-mail:", err);
+        }
+    }
+
+    async function verificarCpf(input) {
+        const cpf = input.value.replace(/\D/g, '');
+        const erroSpan = document.getElementById("erro-cpf");
+
+        if (cpf.length !== 11) {
+            erroSpan.textContent = "";
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/usuario/verificar-cpf?cpf=${cpf}`);
+            const existe = await response.json();
+
+            if (existe) {
+                erroSpan.textContent = "Este CPF já está cadastrado.";
+            } else {
+                erroSpan.textContent = "";
+            }
+        } catch (err) {
+            console.error("Erro ao verificar CPF:", err);
+        }
+    }
 </script>
 
 </body>

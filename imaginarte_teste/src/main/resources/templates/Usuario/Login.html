@@ -2,27 +2,88 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Bootstrap e Font Awesome -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/Login.css">
+    <style>
+        body {
+            background-color: #FFF8EF;
+            font-family: "Arial", sans-serif;
+        }
 
+        .login {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .jumbotron {
+            background-color: #ffffff;
+            border: 3px solid #FEB6C6;
+            border-radius: 10px;
+        }
+
+        h2 {
+            color: #FEB6C6;
+        }
+
+        .btn-primary {
+            background-color: #A0E6B2;
+            border-color: #A0E6B2;
+        }
+
+        .btn-primary:hover {
+            background-color: #87D39E;
+            border-color: #87D39E;
+        }
+
+        .btn-outline-secondary {
+            color: #FEB6C6;
+            border-color: #FEB6C6;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #FEB6C6;
+            color: white;
+        }
+
+        .form-group label {
+            color: #FEB6C6;
+            font-weight: bold;
+        }
+
+        .input-group-text {
+            background-color: #FFF8EF;
+            border-color: #FEB6C6;
+            color: #FEB6C6;
+        }
+
+        .form-control {
+            border-color: #FEB6C6;
+        }
+
+        .alert-danger {
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="login">
     <div class="login-container p-4">
         <div class="jumbotron border p-4">
-            <h2 class="text-center">Login</h2>
-            <form action="/logar" method="post">
+            <h2 class="text-center mb-4">Login</h2>
+            <form action="/usuario/login" method="post">
                 <div class="form-group">
                     <label for="username">Email</label>
                     <div class="input-group">
@@ -39,7 +100,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
                         </div>
-                        <input type="password" class="form-control form-control-lg" placeholder="Digite a sua senha" required name="senha" id="password">
+                        <input type="password" name="senha" id="password" placeholder="Digite a sua senha" required class="form-control form-control-lg">
                         <div class="input-group-append">
                             <button type="button" class="btn btn-light" onclick="togglePassword()">
                                 <i class="fas fa-eye"></i>
@@ -50,6 +111,9 @@
 
                 <input type="submit" value="Login" class="btn btn-primary btn-block">
 
+                <a href="/usuario/cadastroUsuario" class="btn btn-outline-secondary btn-block mt-2">Cadastrar-se</a>
+
+                <!-- Mensagem de erro -->
                 <div th:if="${erro != null}" th:text="${erro}" class="alert alert-danger" role="alert"></div>
             </form>
         </div>
@@ -59,15 +123,15 @@
 <!-- Scripts -->
 <script>
     function togglePassword() {
-        let passwordInput = document.getElementById("password");
-        let icon = document.querySelector(".input-group-append button i");
+        const input = document.getElementById("password");
+        const icon = document.querySelector(".input-group-append button i");
 
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
+        if (input.type === "password") {
+            input.type = "text";
             icon.classList.remove("fa-eye");
             icon.classList.add("fa-eye-slash");
         } else {
-            passwordInput.type = "password";
+            input.type = "password";
             icon.classList.remove("fa-eye-slash");
             icon.classList.add("fa-eye");
         }
@@ -75,15 +139,9 @@
 </script>
 
 <!-- Bootstrap Scripts -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 </body>
 </html>
