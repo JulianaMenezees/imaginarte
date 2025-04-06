@@ -23,7 +23,7 @@ public class ProdutoAdmin {
     private String descricao;
 
     @Column(nullable = false, length = 200)
-    private String preco;
+    private double preco;
 
     @Column(nullable = false, length = 200)
     private int quantidade;
@@ -74,11 +74,11 @@ public class ProdutoAdmin {
         this.descricao = descricao;
     }
 
-    public String getPreco() {
+    public double getPreco() {
         return preco;
     }
 
-    public void setPreco(String preco) {
+    public void setPreco(double preco) {
         this.preco = preco;
     }
 

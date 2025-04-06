@@ -22,7 +22,7 @@ public class ProdutoAdminDto {
     private String descricao;
 
     @NotEmpty(message = "Campo obrigatório")
-    private String preco;
+    private double preco;
 
     @NotNull
     @Min(1)
@@ -71,11 +71,11 @@ public class ProdutoAdminDto {
         this.descricao = descricao;
     }
 
-    public @NotEmpty(message = "Campo obrigatório") String getPreco() {
+    public double getPreco() {
         return preco;
     }
 
-    public void setPreco(@NotEmpty(message = "Campo obrigatório") String preco) {
+    public void setPreco(@NotEmpty(message = "Campo obrigatório") double preco) {
         this.preco = preco;
     }
 

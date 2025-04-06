@@ -102,7 +102,7 @@
       <p><strong>Avaliação:</strong> <span th:text="${produto.avaliacao}"></span></p>
 
       <!-- Botão de Comprar -->
-      <a href="/comprar/${produto.id}" class="botao-comprar">Comprar</a>
+      <a th:href="@{'/carrinho/comprar/' + ${produto.id}}" class="botao-comprar">Comprar</a>
     </div>
   </div>
 </div>
