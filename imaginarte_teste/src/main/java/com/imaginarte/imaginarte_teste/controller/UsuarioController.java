@@ -110,6 +110,18 @@ public class UsuarioController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // Encerra a sessão
-        return "redirect:/usuario/login";
+        return "redirect:/";
+    }
+
+    @GetMapping("/meusdados")
+    public String mostrarDadosUsuario(HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+
+        if (usuario == null) {
+            return "redirect:/usuario/login"; // redireciona se não estiver logado
+        }
+
+        model.addAttribute("usuario", usuario);
+        return "Usuario/DadosUsuario";
     }
 }
