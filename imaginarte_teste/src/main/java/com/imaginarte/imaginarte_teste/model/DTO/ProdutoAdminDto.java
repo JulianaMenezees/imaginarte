@@ -4,6 +4,7 @@ import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -21,7 +22,8 @@ public class ProdutoAdminDto {
     @NotEmpty(message = "Campo obrigatório")
     private String descricao;
 
-    @NotEmpty(message = "Campo obrigatório")
+    @NotNull(message = "Campo obrigatório")
+    @Positive(message = "O preço deve ser maior que zero")
     private double preco;
 
     @NotNull
