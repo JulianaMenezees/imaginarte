@@ -2,6 +2,7 @@ package com.imaginarte.imaginarte_teste.controller;
 
 import com.imaginarte.imaginarte_teste.Repository.UsuarioRepository;
 import com.imaginarte.imaginarte_teste.model.DTO.UsuarioDto;
+import com.imaginarte.imaginarte_teste.model.DTO.UsuarioEdicaoDto;
 import com.imaginarte.imaginarte_teste.model.Usuario;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -104,13 +105,13 @@ public class UsuarioController {
         // Armazena o usuário logado na sessão
         session.setAttribute("usuarioLogado", usuario);
 
-        return "redirect:/";
+        return "redirect:/produtos/index";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // Encerra a sessão
-        return "redirect:/";
+        return "redirect:/produtos/index";
     }
 
     @GetMapping("/meusdados")
@@ -124,4 +125,46 @@ public class UsuarioController {
         model.addAttribute("usuario", usuario);
         return "Usuario/DadosUsuario";
     }
+
+    @GetMapping("/editar")
+    public String editarDadosUsuario(HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+        if (usuario == null) return "redirect:/usuario/login";
+
+        UsuarioEdicaoDto dto = new UsuarioEdicaoDto();
+        dto.setId(usuario.getId());
+        dto.setNome(usuario.getNome());
+        dto.setDataNascimento(usuario.getDataNascimento());
+        dto.setGenero(usuario.getGenero());
+
+        model.addAttribute("usuario", dto);
+        return "Usuario/EditarDados";
+    }
+
+    @PostMapping("/editar")
+    public String salvarEdicaoUsuario(@Valid @ModelAttribute("usuario") UsuarioEdicaoDto usuarioDto,
+                                      BindingResult result,
+                                      HttpSession session,
+                                      RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) return "Usuario/EditarDados";
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+        if (usuario == null) return "redirect:/usuario/login";
+
+        usuario.setNome(usuarioDto.getNome());
+        usuario.setDataNascimento(usuarioDto.getDataNascimento());
+        usuario.setGenero(usuarioDto.getGenero());
+
+        if (usuarioDto.getSenha() != null && !usuarioDto.getSenha().isBlank()) {
+            usuario.setSenha(passwordEncoder.encode(usuarioDto.getSenha()));
+        }
+
+        repo.save(usuario);
+        session.setAttribute("usuarioLogado", usuario);
+
+        redirectAttributes.addFlashAttribute("mensagem", "Dados atualizados com sucesso!");
+        return "redirect:/usuario/meusdados";
+    }
+
 }

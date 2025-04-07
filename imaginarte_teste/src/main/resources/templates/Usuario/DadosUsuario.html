@@ -10,7 +10,7 @@
         }
         .container {
             margin-top: 50px;
-            max-width: 600px;
+            max-width: 1000px;
             background-color: white;
             padding: 30px;
             border-radius: 10px;
@@ -19,6 +19,12 @@
         h2 {
             color: #ff6600;
             margin-bottom: 30px;
+        }
+        .section-title {
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
         }
         .form-label {
             font-weight: bold;
@@ -30,29 +36,84 @@
 <div class="container">
     <h2 class="text-center">Meus Dados</h2>
 
-    <div class="mb-3">
-        <label class="form-label">Nome:</label>
-        <p th:text="${session.usuarioLogado.nome}">Nome do usuário</p>
-    </div>
+    <div class="row">
+        <!-- Coluna: Dados Pessoais -->
+        <div class="col-md-6">
+            <h4 class="section-title">Dados Pessoais</h4>
 
-    <div class="mb-3">
-        <label class="form-label">Email:</label>
-        <p th:text="${session.usuarioLogado.email}">email@exemplo.com</p>
-    </div>
+            <div class="mb-3">
+                <label class="form-label">Nome:</label>
+                <p th:text="${session.usuarioLogado.nome}">Nome do usuário</p>
+            </div>
 
-    <div class="mb-3">
-        <label class="form-label">CPF:</label>
-        <p th:text="${session.usuarioLogado.cpf}">000.000.000-00</p>
-    </div>
+            <div class="mb-3">
+                <label class="form-label">Email:</label>
+                <p th:text="${session.usuarioLogado.email}">email@exemplo.com</p>
+            </div>
 
-    <div class="mb-3">
-        <label class="form-label">Data de Nascimento:</label>
-        <p th:text="${#temporals.format(session.usuarioLogado.dataNascimento, 'dd/MM/yyyy')}">01/01/2000</p>
-    </div>
+            <div class="mb-3">
+                <label class="form-label">CPF:</label>
+                <p th:text="${session.usuarioLogado.cpf}">000.000.000-00</p>
+            </div>
 
-    <div class="mb-3">
-        <label class="form-label">Gênero:</label>
-        <p th:text="${session.usuarioLogado.genero}">Masculino</p>
+            <div class="mb-3">
+                <label class="form-label">Data de Nascimento:</label>
+                <p>
+                    <span th:if="${session.usuarioLogado.dataNascimento != null}"
+                          th:text="${#temporals.format(session.usuarioLogado.dataNascimento, 'dd/MM/yyyy')}">01/01/2000</span>
+                    <span th:unless="${session.usuarioLogado.dataNascimento != null}">Não informado</span>
+                </p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Gênero:</label>
+                <p th:text="${session.usuarioLogado.genero}">Masculino</p>
+            </div>
+
+            <div class="mb-3">
+                <a href="/usuario/editar" class="btn btn-secondary">Editar Dados</a>
+            </div>
+        </div>
+
+        <!-- Coluna: Endereço -->
+        <div class="col-md-6">
+            <h4 class="section-title">Endereço</h4>
+
+            <div class="mb-3">
+                <label class="form-label">CEP:</label>
+                <p th:text="${session.usuarioLogado.cep}">00000-000</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Logradouro:</label>
+                <p th:text="${session.usuarioLogado.logradouro}">Rua Exemplo</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Número:</label>
+                <p th:text="${session.usuarioLogado.numero}">123</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Complemento:</label>
+                <p th:text="${session.usuarioLogado.complemento}">Apto 10</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Bairro:</label>
+                <p th:text="${session.usuarioLogado.bairro}">Centro</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Cidade:</label>
+                <p th:text="${session.usuarioLogado.cidade}">Cidade</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Estado (UF):</label>
+                <p th:text="${session.usuarioLogado.uf}">SP</p>
+            </div>
+        </div>
     </div>
 
     <div class="text-center mt-4">

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Dados</title>
+    <link rel="stylesheet" th:href="@{/css/cadastroUsuarios.css}">
+</head>
+<body>
+
+<div class="container">
+    <div class="formulario">
+        <h2>Editar Dados Pessoais</h2>
+
+        <!-- Formulário -->
+        <form th:action="@{/usuario/editar}" th:object="${usuario}" method="post" onsubmit="return validarFormulario(this)">
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="mb-3">
+                <input class="form-control" th:field="*{nome}" type="text" placeholder="Nome Completo" required>
+                <span class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+            </div>
+
+            <div class="mb-3">
+                <input class="form-control" th:field="*{dataNascimento}" type="date" required>
+                <span class="text-danger" th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}"></span>
+            </div>
+
+            <div class="mb-3">
+                <select class="form-control" th:field="*{genero}" required>
+                    <option value="">Selecione o Gênero</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Outro">Outro</option>
+                </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}"></span>
+            </div>
+
+            <div class="mb-3">
+                <input class="form-control" th:field="*{senha}" id="senha" type="password" placeholder="Nova Senha (opcional)">
+                <span class="text-danger" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></span>
+            </div>
+
+            <div class="mb-3">
+                <input class="form-control" id="confirmacao" type="password" placeholder="Confirme a Nova Senha">
+            </div>
+
+
+
+            <div class="botoes">
+                <button type="submit" class="btn-primary">Salvar</button>
+                <a th:href="@{/usuario/meusdados}" class="btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function validarFormulario(form) {
+        const senha = document.getElementById("senha").value;
+        const confirmacao = document.getElementById("confirmacao").value;
+
+        if ((senha || confirmacao) && senha !== confirmacao) {
+            alert("As senhas não coincidem!");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+</body>
+</html>
