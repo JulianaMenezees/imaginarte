@@ -9,4 +9,5 @@ public interface ProdutosRepository extends JpaRepository<ProdutoAdmin, Integer>
 
     List<ProdutoAdmin> findByNomeContainingIgnoreCase(String nome);
 
+    List<ProdutoAdmin> findBySituacaoTrue();
 }

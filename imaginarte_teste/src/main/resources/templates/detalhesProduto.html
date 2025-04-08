@@ -21,7 +21,7 @@
     }
     .produto-img {
       width: 100%;
-      height: 600px; /* Ajustando o tamanho da imagem */
+      height: 600px;
       object-fit: cover;
       border-radius: 10px;
     }
@@ -52,7 +52,7 @@
       background: #0056b3;
     }
     .botao-comprar {
-      background: #28a745; /* Cor verde */
+      background: #28a745;
       color: white;
       padding: 12px 20px;
       border-radius: 5px;
@@ -78,7 +78,7 @@
     <div class="col-md-6">
       <div id="carouselProduto" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item" th:each="imagem, iterStat : ${produto.imagens}" th:classappend="${iterStat.index == 0 ? ' active' : ''}">
+          <div class="carousel-item" th:each="imagem : ${produto.imagens}" th:classappend="${imagem.principal} ? ' active'">
             <img th:src="@{'/uploads/' + ${imagem.url}}" class="d-block w-100 produto-img" alt="Imagem do Produto">
           </div>
         </div>

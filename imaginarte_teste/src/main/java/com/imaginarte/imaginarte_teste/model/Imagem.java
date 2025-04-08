@@ -10,9 +10,19 @@ public class Imagem {
 
     private String url;
 
+    private boolean principal;
+
     @ManyToOne
     @JoinColumn(name = "produto_id")
     private ProdutoAdmin produto;
+
+    public boolean isPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(boolean principal) {
+        this.principal = principal;
+    }
 
     public Long getId() {
         return id;

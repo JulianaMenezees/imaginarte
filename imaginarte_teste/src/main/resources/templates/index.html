@@ -114,18 +114,19 @@
         <div class="produto-card" th:each="produto : ${produtos}">
             <div th:id="'carouselProduto' + ${produto.id}" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item" th:each="imagem, iterStat : ${produto.imagens}"
-                         th:classappend="${iterStat.index == 0 ? ' active' : ''}">
+                    <div class="carousel-item"
+                         th:each="imagem : ${produto.imagens}"
+                         th:classappend="${imagem.principal} ? ' active'">
                         <img th:src="@{'/uploads/' + ${imagem.url}}" class="d-block w-100" alt="Imagem do Produto">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" th:data-bs-target="'#carouselProduto' + ${produto.id}" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
+                    <span class="visually-hidden">Anterior</span>
                 </button>
                 <button class="carousel-control-next" type="button" th:data-bs-target="'#carouselProduto' + ${produto.id}" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
+                    <span class="visually-hidden">Próximo</span>
                 </button>
             </div>
             <h3 th:text="${produto.nome}"></h3>

@@ -58,6 +58,7 @@ public class ProdutoController {
     @PostMapping("/cadastroProduto")
     public String criarOuAtualizarProduto(@Valid @ModelAttribute ProdutoAdminDto produtoAdminDto,
                                           BindingResult result,
+                                          @RequestParam("imagemPrincipal") String imagemPrincipalNome,
                                           RedirectAttributes redirectAttributes) throws IOException {
         if (result.hasErrors()) {
             return "ProdutosAdmin/cadastroProdutoAdmin";
@@ -86,18 +87,16 @@ public class ProdutoController {
                 String fileName = UUID.randomUUID() + "_" + imagem.getOriginalFilename();
                 Path filePath = Paths.get(uploadDir + fileName);
 
-                // Criar diretório se não existir
                 if (!Files.exists(Paths.get(uploadDir))) {
                     Files.createDirectories(Paths.get(uploadDir));
                 }
 
-                // Salvar arquivo
                 Files.copy(imagem.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-                // Criar entidade de imagem
                 Imagem novaImagem = new Imagem();
                 novaImagem.setUrl(fileName);
                 novaImagem.setProduto(produtoAdmin);
+                novaImagem.setPrincipal(fileName.endsWith(imagemPrincipalNome)); // ← checa se é a principal
                 imagensSalvas.add(novaImagem);
             }
 
@@ -106,7 +105,6 @@ public class ProdutoController {
 
         repository.save(produtoAdmin);
         redirectAttributes.addFlashAttribute("mensagem", "Produto salvo com sucesso!");
-
         return "redirect:/produtos";
     }
 
@@ -175,7 +173,7 @@ public class ProdutoController {
 
     @GetMapping("/index")
     public String index(Model model) {
-        List<ProdutoAdmin> produtos = repository.findAll();
+        List<ProdutoAdmin> produtos = repository.findBySituacaoTrue(); // agora só produtos ativos
         model.addAttribute("produtos", produtos != null ? produtos : new ArrayList<>());
         return "index";
     }

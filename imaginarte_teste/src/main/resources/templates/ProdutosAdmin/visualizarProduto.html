@@ -19,9 +19,23 @@
         <div class="col-md-4 text-center">
           <div id="carouselProduto" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-              <th:block th:each="imagem, iterStat : ${produto.imagens}">
-                <div class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active'">
-                  <img th:src="@{'/uploads/' + ${imagem.url}}" alt="Imagem do Produto" class="d-block w-100 img-fluid rounded">
+              <!-- Imagem principal -->
+              <th:block th:each="imagem : ${produto.imagens}">
+                <div class="carousel-item active"
+                     th:if="${imagem.principal}">
+                  <img th:src="@{'/uploads/' + ${imagem.url}}"
+                       alt="Imagem Principal do Produto"
+                       class="d-block w-100 img-fluid rounded">
+                </div>
+              </th:block>
+
+              <!-- Outras imagens -->
+              <th:block th:each="imagem : ${produto.imagens}">
+                <div class="carousel-item"
+                     th:if="${!imagem.principal}">
+                  <img th:src="@{'/uploads/' + ${imagem.url}}"
+                       alt="Imagem do Produto"
+                       class="d-block w-100 img-fluid rounded">
                 </div>
               </th:block>
             </div>
