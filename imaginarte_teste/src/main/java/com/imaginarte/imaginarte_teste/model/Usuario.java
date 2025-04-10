@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "USUARIO")
@@ -74,6 +76,14 @@ public class Usuario {
     @Column(nullable = false, length = 2)
     private String uf;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<EnderecoEntrega> enderecosEntrega = new ArrayList<>();
 
+    public List<EnderecoEntrega> getEnderecosEntrega() {
+        return enderecosEntrega;
+    }
 
+    public void setEnderecosEntrega(List<EnderecoEntrega> enderecosEntrega) {
+        this.enderecosEntrega = enderecosEntrega;
+    }
 }

@@ -32,6 +32,7 @@ public class CarrinhoController {
         ProdutoAdmin produto = produtosRepo.findById(id).orElse(null);
         if (produto != null) {
             carrinho.adicionarProduto(produto);
+
             redirectAttributes.addFlashAttribute("mensagem", "Produto adicionado ao carrinho!");
         }
         return "redirect:/carrinho";

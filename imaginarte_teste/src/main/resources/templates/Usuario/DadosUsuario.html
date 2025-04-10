@@ -77,7 +77,7 @@
 
         <!-- Coluna: Endereço -->
         <div class="col-md-6">
-            <h4 class="section-title">Endereço</h4>
+            <h4 class="section-title">Endereço de Faturamento</h4>
 
             <div class="mb-3">
                 <label class="form-label">CEP:</label>
@@ -115,6 +115,39 @@
             </div>
         </div>
     </div>
+
+    <div class="mt-5">
+        <h4 class="section-title">Endereços de Entrega</h4>
+
+        <div th:if="${usuario.enderecosEntrega != null and !usuario.enderecosEntrega.isEmpty()}">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div class="col" th:each="endereco : ${usuario.enderecosEntrega}">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <p class="card-text" th:text="|${endereco.logradouro}, ${endereco.numero} - ${endereco.bairro}, ${endereco.cidade} - ${endereco.uf}|"></p>
+                            <p class="card-text" th:text="'CEP: ' + ${endereco.cep}"></p>
+                            <p class="card-text" th:if="${endereco.complemento != null and endereco.complemento != ''}" th:text="'Complemento: ' + ${endereco.complemento}"></p>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span th:if="${endereco.padrao}" class="badge bg-success">Endereço Padrão</span>
+
+                                <form th:action="@{/usuario/endereco/padrao/{id}(id=${endereco.id})}" method="post" th:if="${!endereco.padrao}">
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">Definir como padrão</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${usuario.enderecosEntrega == null or usuario.enderecosEntrega.isEmpty()}">
+            <p>Nenhum endereço de entrega cadastrado.</p>
+        </div>
+
+    </div>
+
+
 
     <div class="text-center mt-4">
         <a href="/produtos/index" class="btn btn-secondary">Voltar</a>

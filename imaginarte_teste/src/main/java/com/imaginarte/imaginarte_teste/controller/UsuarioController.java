@@ -1,8 +1,10 @@
 package com.imaginarte.imaginarte_teste.controller;
 
+import com.imaginarte.imaginarte_teste.Repository.EnderecoEntregaRepository;
 import com.imaginarte.imaginarte_teste.Repository.UsuarioRepository;
 import com.imaginarte.imaginarte_teste.model.DTO.UsuarioDto;
 import com.imaginarte.imaginarte_teste.model.DTO.UsuarioEdicaoDto;
+import com.imaginarte.imaginarte_teste.model.EnderecoEntrega;
 import com.imaginarte.imaginarte_teste.model.Usuario;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -13,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/usuario")
@@ -119,12 +123,16 @@ public class UsuarioController {
         Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
 
         if (usuario == null) {
-            return "redirect:/usuario/login"; // redireciona se não estiver logado
+            return "redirect:/usuario/login";
         }
 
+        // Garante o carregamento dos endereços (se estiver usando Fetch.LAZY)
+        usuario.setEnderecosEntrega(enderecoEntregaRepo.findByUsuarioId(usuario.getId()));
+
         model.addAttribute("usuario", usuario);
-        return "Usuario/DadosUsuario";
+        return "Usuario/dadosUsuario";
     }
+
 
     @GetMapping("/editar")
     public String editarDadosUsuario(HttpSession session, Model model) {
@@ -167,4 +175,55 @@ public class UsuarioController {
         return "redirect:/usuario/meusdados";
     }
 
+    @Autowired
+    private EnderecoEntregaRepository enderecoEntregaRepo;
+
+    @GetMapping("/novo-endereco")
+    public String novoEnderecoEntrega(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+        if (usuario == null) return "redirect:/usuario/login";
+
+        EnderecoEntrega endereco = new EnderecoEntrega();
+        model.addAttribute("endereco", endereco);
+        return "Usuario/NovoEnderecoEntrega";
+    }
+
+    @PostMapping("/novo-endereco")
+    public String salvarEnderecoEntrega(@ModelAttribute("endereco") EnderecoEntrega endereco,
+                                        HttpSession session,
+                                        RedirectAttributes redirectAttributes) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+        if (usuario == null) return "redirect:/usuario/login";
+
+        if (endereco.isPadrao()) {
+            List<EnderecoEntrega> existentes = enderecoEntregaRepo.findByUsuarioId(usuario.getId());
+            for (EnderecoEntrega e : existentes) {
+                e.setPadrao(false);
+            }
+            enderecoEntregaRepo.saveAll(existentes);
+        }
+
+        endereco.setUsuario(usuario);
+        enderecoEntregaRepo.save(endereco);
+
+        redirectAttributes.addFlashAttribute("mensagem", "Endereço adicionado com sucesso!");
+        return "redirect:/usuario/meusdados";
+    }
+
+    @PostMapping("/endereco/padrao/{id}")
+    public String definirEnderecoPadrao(@PathVariable("id") Long id,
+                                        HttpSession session,
+                                        RedirectAttributes redirectAttributes) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+        if (usuario == null) return "redirect:/usuario/login";
+
+        List<EnderecoEntrega> enderecos = enderecoEntregaRepo.findByUsuarioId(usuario.getId());
+        for (EnderecoEntrega e : enderecos) {
+            e.setPadrao(e.getId().equals(id)); // Marca apenas o selecionado como padrão
+        }
+        enderecoEntregaRepo.saveAll(enderecos);
+
+        redirectAttributes.addFlashAttribute("mensagem", "Endereço padrão atualizado.");
+        return "redirect:/usuario/meusdados";
+    }
 }

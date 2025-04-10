@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Novo Endereço de Entrega</title>
+  <link rel="stylesheet" th:href="@{/css/cadastroUsuarios.css}">
+</head>
+<body>
+
+<div class="container">
+  <div class="formulario">
+    <h2>Adicionar Endereço de Entrega</h2>
+
+    <form th:action="@{/usuario/novo-endereco}" th:object="${endereco}" method="post">
+      <div class="mb-3">
+        <input class="form-control" th:field="*{cep}" id="cep" placeholder="CEP" required>
+      </div>
+
+      <div class="mb-3">
+        <input class="form-control" th:field="*{logradouro}" id="logradouro" placeholder="Logradouro" required>
+      </div>
+
+      <div class="mb-3">
+        <input class="form-control" th:field="*{numero}" placeholder="Número" required>
+      </div>
+
+      <div class="mb-3">
+        <input class="form-control" th:field="*{complemento}" placeholder="Complemento">
+      </div>
+
+      <div class="mb-3">
+        <input class="form-control" th:field="*{bairro}" id="bairro" placeholder="Bairro" required>
+      </div>
+
+      <div class="mb-3">
+        <input class="form-control" th:field="*{cidade}" id="cidade" placeholder="Cidade" required>
+      </div>
+
+      <div class="mb-3">
+        <select class="form-control" th:field="*{uf}" id="uf" required>
+          <option value="">UF</option>
+          <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+          <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+          <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+          <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+          <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+          <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+          <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+          <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+          <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label><input type="checkbox" th:field="*{padrao}"/> Definir como principal</label>
+      </div>
+
+      <button class="btn-primary" type="submit">Salvar Endereço</button>
+      <a class="btn-secondary" th:href="@{/usuario/meusdados}">Voltar</a>
+    </form>
+  </div>
+</div>
+
+<script>
+  // API ViaCEP
+  document.getElementById("cep").addEventListener("blur", function () {
+    const cep = this.value.replace(/\D/g, '');
+
+    if (cep.length === 8) {
+      fetch(`https://viacep.com.br/ws/${cep}/json/`)
+              .then(response => response.json())
+              .then(data => {
+                if (!data.erro) {
+                  document.getElementById("logradouro").value = data.logradouro || '';
+                  document.getElementById("bairro").value = data.bairro || '';
+                  document.getElementById("cidade").value = data.localidade || '';
+                  document.getElementById("uf").value = data.uf || '';
+                } else {
+                  alert("CEP não encontrado.");
+                }
+              })
+              .catch(() => alert("Erro ao buscar o CEP."));
+    }
+  });
+</script>
+
+</body>
+</html>
