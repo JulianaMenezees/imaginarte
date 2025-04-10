@@ -48,6 +48,12 @@ public class Carrinho {
         return itens.values().stream().mapToDouble(ItemCarrinho::getSubtotal).sum();
     }
 
+    public int getQuantidadeTotal() {
+        return itens.values().stream()
+                .mapToInt(ItemCarrinho::getQuantidade)
+                .sum();
+    }
+
     public void setFrete(double frete) {
         this.frete = frete;
     }
