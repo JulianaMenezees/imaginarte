@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <title>Carrinho de Compras</title>
     <link rel="stylesheet" th:href="@{/css/carrinho.css}" />
+    <script>
+        // Função para validar a seleção de frete
+        function validarFrete() {
+            const freteSelecionado = document.querySelector('input[name="frete"]:checked');
+            if (!freteSelecionado) {
+                alert("Por favor, selecione uma opção de frete antes de continuar.");
+                return false; // Impede o envio do formulário
+            }
+            return true; // Permite o envio do formulário se o frete foi selecionado
+        }
+    </script>
 </head>
 <body>
 
@@ -75,7 +86,8 @@
 
     <div class="botoes-footer">
         <a href="http://localhost:8080/produtos/index" class="btn">Continuar comprando</a>
-        <a href="/checkout/endereco" class="btn">Finalizar Compra</a>
+        <!-- Alteração do botão para chamar a função de validação -->
+        <a href="/checkout/endereco" class="btn" onclick="return validarFrete()">Finalizar Compra</a>
     </div>
 </div>
 

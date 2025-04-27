@@ -1,0 +1,138 @@
+/* Estilo do corpo da página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FFF8EF;
+    padding: 40px;
+    margin: 0;
+}
+
+/* Título da página */
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+/* Formulário de pagamento */
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.08);
+}
+
+/* Opções de pagamento (Boleto e Cartão de Crédito) */
+.form-check {
+    margin-bottom: 20px;
+}
+
+.form-check-input {
+    margin-right: 10px;
+}
+
+.form-check-label {
+    font-size: 18px;
+}
+
+/* Formulário do cartão de crédito */
+#cartaoForm {
+    display: none;
+}
+
+#cartaoForm input, #cartaoForm select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#cartaoForm input:focus, #cartaoForm select:focus {
+    border-color: #A0E6B2;
+    outline: none;
+}
+
+/* Botões do formulário */
+button[type="submit"] {
+    background-color: #FEB6C6;
+    color: #333;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #87D39E;
+}
+
+/* Seção de frete */
+.frete-section {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 30px 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.08);
+}
+
+.frete-section h3 {
+    margin-bottom: 15px;
+    color: #444;
+}
+
+.frete-options label {
+    margin-right: 20px;
+}
+
+/* Resumo do pedido */
+.resumo {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.08);
+}
+
+.resumo p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* Rodapé com botões */
+.botoes-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Mensagem quando não há itens no carrinho */
+.mensagem-vazia {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+    margin-top: 80px;
+}
+
+.mensagem-vazia a {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    background-color: #A0E6B2;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.mensagem-vazia a:hover {
+    background-color: #87D39E;
+}
+
+/* Quantidade de itens no carrinho */
+.quantidade {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
