@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Selecionar Endereço</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/endereco.css}" />
+</head>
+<body>
+
+<div class="container">
+    <h1>Selecione um Endereço para Entrega</h1>
+
+    <form th:action="@{/checkout/endereco}" method="post">
+        <div th:each="endereco : ${enderecos}" class="mb-3">
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="enderecoId" th:value="${endereco.id}" th:checked="${endereco.padrao}" required />
+                <span th:text="${endereco.logradouro + ', ' + endereco.numero + ' - ' + endereco.bairro + ', ' + endereco.cidade + ' - ' + endereco.uf}"></span>
+            </label>
+        </div>
+
+        <div class="text-center mb-4">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoEnderecoModal">
+                + Adicionar Novo Endereço
+            </button>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Continuar para Pagamento</button>
+        </div>
+
+        <!-- Botão Voltar para o Carrinho -->
+        <div class="text-center mt-3">
+            <a th:href="@{/carrinho}" class="btn btn-secondary">
+                Voltar para o Carrinho
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- Modal Novo Endereço -->
+<div class="modal fade" id="novoEnderecoModal" tabindex="-1" aria-labelledby="novoEnderecoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="novoEnderecoModalLabel">Adicionar Novo Endereço</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formNovoEndereco">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="cep" id="cep" placeholder="CEP" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="logradouro" id="logradouro" placeholder="Logradouro" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="numero" placeholder="Número" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="complemento" placeholder="Complemento">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="bairro" id="bairro" placeholder="Bairro" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="cidade" id="cidade" placeholder="Cidade" required>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" name="uf" id="uf" required>
+                            <option value="">UF</option>
+                            <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+                            <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+                            <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+                            <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+                            <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+                            <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+                            <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+                            <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+                            <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label><input type="checkbox" class="form-check-input" name="padrao"> Definir como principal</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Salvar Endereço</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // API ViaCEP
+    document.getElementById("cep").addEventListener("blur", function () {
+        const cep = this.value.replace(/\D/g, '');
+        if (cep.length === 8) {
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.erro) {
+                        document.getElementById("logradouro").value = data.logradouro || '';
+                        document.getElementById("bairro").value = data.bairro || '';
+                        document.getElementById("cidade").value = data.localidade || '';
+                        document.getElementById("uf").value = data.uf || '';
+                    } else {
+                        alert("CEP não encontrado.");
+                    }
+                })
+                .catch(() => alert("Erro ao buscar o CEP."));
+        }
+    });
+
+    // Enviar o novo endereço via AJAX
+    document.getElementById("formNovoEndereco").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch('/usuario/novo-endereco', {
+            method: 'POST',
+            body: new URLSearchParams(formData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Endereço adicionado com sucesso!');
+                    location.reload();
+                } else {
+                    alert('Erro ao adicionar endereço.');
+                }
+            })
+            .catch(() => alert('Erro inesperado.'));
+    });
+</script>
+
+</body>
+</html>
