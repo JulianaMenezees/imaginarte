@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus Pedidos - Imaginarte</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.net/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    .navbar {
+      background-color: #f8f9fa;
+      padding: 15px 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #ff6600 !important;
+    }
+    .login-btn {
+      background-color: #28a745;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .login-btn:hover {
+      background-color: #218838;
+      color: white;
+    }
+    .pedido-card {
+      background: #f1f1f1;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 15px;
+    }
+
+    .pedido-card h5 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    .pedido-card .detalhes-btn {
+      margin-top: 10px;
+      background: #007bff;
+      color: white;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .pedido-card .detalhes-btn:hover {
+      background: #0056b3;
+    }
+    body {
+      background-color: #FFF8EF;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<nav class="navbar d-flex justify-content-between align-items-center">
+  <a class="navbar-brand" href="#">Imaginarte</a>
+
+  <!-- Área de login e carrinho -->
+  <div th:if="${session.usuarioLogado == null}" class="d-flex gap-2">
+    <a class="login-btn" href="/usuario/login">Login / Cadastre-se</a>
+  </div>
+
+  <div th:if="${session.usuarioLogado != null}" class="d-flex gap-2 align-items-center">
+    <div class="dropdown">
+      <a class="btn login-btn dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" id="menuUsuario" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-user"></i>
+        <span th:text="${session.usuarioLogado.nome}">Usuário</span>
+      </a>
+
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuUsuario">
+        <li><a class="dropdown-item" href="/usuario/meusdados">Meus Dados</a></li>
+        <li><a class="dropdown-item" href="/usuario/logout">Sair</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Conteúdo principal -->
+<div class="container mt-5">
+  <h1 class="text-center">Meus Pedidos</h1>
+
+  <!-- Lista de pedidos -->
+  <div th:if="${pedidos != null}">
+    <div class="pedido-card" th:each="pedido : ${pedidos}">
+      <h5>Pedido #<span th:text="${pedido.numero}"></span></h5>
+      <p>Data: <span th:text="${#dates.format(pedido.data, 'dd/MM/yyyy')}"></span></p>
+      <p>Total: R$ <span th:text="${pedido.valorTotal}"></span></p>
+      <p>Status: <span th:text="${pedido.status}"></span></p>
+      <a th:href="@{/pedido/detalhes/{id}(id=${pedido.id})}" class="detalhes-btn">Ver Detalhes</a>
+    </div>
+  </div>
+  <div th:if="${pedidos == null or #lists.isEmpty(pedidos)}">
+    <p>Nenhum pedido encontrado.</p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

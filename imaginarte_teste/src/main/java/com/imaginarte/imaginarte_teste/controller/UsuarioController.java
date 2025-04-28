@@ -1,11 +1,15 @@
 package com.imaginarte.imaginarte_teste.controller;
 
 import com.imaginarte.imaginarte_teste.Repository.EnderecoEntregaRepository;
+import com.imaginarte.imaginarte_teste.Repository.PedidoRepository;
 import com.imaginarte.imaginarte_teste.Repository.UsuarioRepository;
 import com.imaginarte.imaginarte_teste.model.DTO.UsuarioDto;
 import com.imaginarte.imaginarte_teste.model.DTO.UsuarioEdicaoDto;
 import com.imaginarte.imaginarte_teste.model.EnderecoEntrega;
+import com.imaginarte.imaginarte_teste.model.Pedido;
 import com.imaginarte.imaginarte_teste.model.Usuario;
+import com.imaginarte.imaginarte_teste.service.PedidoService;
+import com.imaginarte.imaginarte_teste.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,12 @@ public class UsuarioController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private PedidoService pedidoService;
 
     // Exibe o formulário de cadastro
     @GetMapping("/cadastroUsuario")
@@ -111,6 +121,7 @@ public class UsuarioController {
 
         return "redirect:/produtos/index";
     }
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
@@ -226,4 +237,14 @@ public class UsuarioController {
         redirectAttributes.addFlashAttribute("mensagem", "Endereço padrão atualizado.");
         return "redirect:/usuario/meusdados";
     }
+
+    @GetMapping("/pedidos")
+    public String listarPedidos(Model model) {
+        Usuario usuario = usuarioService.getUsuarioLogado();
+        List<Pedido> pedidos = pedidoService.buscarPedidosPorUsuario(usuario);
+        model.addAttribute("pedidos", pedidos);
+        return "usuario/pedidos";  // Nome do template de pedidos
+    }
+
+
 }
