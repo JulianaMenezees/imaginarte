@@ -240,11 +240,17 @@ public class UsuarioController {
 
     @GetMapping("/pedidos")
     public String listarPedidos(Model model) {
-        Usuario usuario = usuarioService.getUsuarioLogado();
+        // Alterando para tratar o Optional<Usuario> corretamente
+        Usuario usuario = usuarioService.getUsuarioLogado()
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        // Busca os pedidos do usuário
         List<Pedido> pedidos = pedidoService.buscarPedidosPorUsuario(usuario);
+
+        // Adiciona a lista de pedidos no modelo
         model.addAttribute("pedidos", pedidos);
-        return "usuario/pedidos";  // Nome do template de pedidos
+
+        // Retorna o template "usuario/pedidos"
+        return "Usuario/pedidos";
     }
-
-
 }

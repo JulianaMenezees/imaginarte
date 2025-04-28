@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UsuarioService {
 
@@ -15,14 +17,14 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Usuario getUsuarioLogado() {
+    public Optional<Usuario> getUsuarioLogado() {
         // Tenta pegar o usuário logado da sessão
         Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-
-        if (usuarioLogado == null) {
-            throw new RuntimeException("Usuário não encontrado");
-        }
-
-        return usuarioLogado;
+        return Optional.ofNullable(usuarioLogado);
     }
+
+    public Usuario buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
 }
