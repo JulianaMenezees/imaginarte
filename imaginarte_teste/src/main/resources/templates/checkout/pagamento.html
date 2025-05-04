@@ -104,23 +104,23 @@
         <div id="cartaoForm">
             <div class="mb-3">
                 <label for="numeroCartao" class="form-label">Número do Cartão</label>
-                <input type="text" class="form-control" id="numeroCartao" name="numeroCartao" placeholder="XXXX XXXX XXXX XXXX" required>
+                <input type="text" class="form-control" id="numeroCartao" name="numeroCartao" placeholder="XXXX XXXX XXXX XXXX">
             </div>
             <div class="mb-3">
                 <label for="codigoVerificador" class="form-label">Código Verificador (CVV)</label>
-                <input type="text" class="form-control" id="codigoVerificador" name="codigoVerificador" placeholder="XXX" required>
+                <input type="text" class="form-control" id="codigoVerificador" name="codigoVerificador" placeholder="XXX">
             </div>
             <div class="mb-3">
                 <label for="nomeCartao" class="form-label">Nome Completo</label>
-                <input type="text" class="form-control" id="nomeCartao" name="nomeCartao" placeholder="Nome Completo" required>
+                <input type="text" class="form-control" id="nomeCartao" name="nomeCartao" placeholder="Nome Completo">
             </div>
             <div class="mb-3">
                 <label for="dataVencimento" class="form-label">Data de Vencimento</label>
-                <input type="text" class="form-control" id="dataVencimento" name="dataVencimento" placeholder="MM/AAAA" required>
+                <input type="text" class="form-control" id="dataVencimento" name="dataVencimento" placeholder="MM/AAAA">
             </div>
             <div class="mb-3">
                 <label for="parcelas" class="form-label">Número de Parcelas</label>
-                <select class="form-select" id="parcelas" name="parcelas" required>
+                <select class="form-select" id="parcelas" name="parcelas">
                     <option value="1">1x</option>
                     <option value="2">2x</option>
                     <option value="3">3x</option>
@@ -138,48 +138,50 @@
     </form>
 
     <div class="text-center mt-3">
-        <!-- Atualiza para redirecionar para a tela de escolha de endereços -->
         <a href="/checkout/endereco" class="btn btn-secondary">Voltar para a Escolha de Endereços</a>
     </div>
-
 </div>
 
 <script>
-    // Exibe ou oculta o formulário de cartão de crédito conforme a escolha da forma de pagamento
-    document.querySelectorAll('input[name="formaPagamento"]').forEach(function(radio) {
-        radio.addEventListener('change', function() {
-            if (document.getElementById('cartao').checked) {
-                document.getElementById('cartaoForm').style.display = 'block';
-            } else {
-                document.getElementById('cartaoForm').style.display = 'none';
-            }
+    document.addEventListener('DOMContentLoaded', function () {
+        const cartaoInput = document.getElementById('cartao');
+        const cartaoForm = document.getElementById('cartaoForm');
+        const camposCartao = document.querySelectorAll('#cartaoForm input, #cartaoForm select');
+
+        document.getElementById('formPagamento').addEventListener('submit', function (e) {
+            const cartaoSelecionado = cartaoInput.checked;
+            camposCartao.forEach(function (campo) {
+                if (cartaoSelecionado) {
+                    campo.setAttribute('required', 'required');
+                } else {
+                    campo.removeAttribute('required');
+                }
+            });
         });
-    });
 
-    // Formatação do número do cartão
-    document.getElementById('numeroCartao').addEventListener('input', function() {
-        // Remove qualquer coisa que não seja número
-        let cardNumber = this.value.replace(/\D/g, '');
+        document.querySelectorAll('input[name="formaPagamento"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                if (cartaoInput.checked) {
+                    cartaoForm.style.display = 'block';
+                } else {
+                    cartaoForm.style.display = 'none';
+                }
+            });
+        });
 
-        // Limita a 16 dígitos e insere espaço a cada 4 dígitos
-        cardNumber = cardNumber.slice(0, 16).replace(/(.{4})(?=.)/g, '$1 ');
+        document.getElementById('numeroCartao').addEventListener('input', function() {
+            let cardNumber = this.value.replace(/\D/g, '');
+            cardNumber = cardNumber.slice(0, 16).replace(/(.{4})(?=.)/g, '$1 ');
+            this.value = cardNumber;
+        });
 
-        // Atualiza o valor do campo
-        this.value = cardNumber;
-    });
+        document.getElementById('dataVencimento').addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').replace(/(\d{2})(\d{4})/, '$1/$2').slice(0, 7);
+        });
 
-    // Formatação da data de vencimento (MM/AAAA)
-    document.getElementById('dataVencimento').addEventListener('input', function() {
-        // Remove qualquer coisa que não seja número e força a formatação MM/AAAA
-        this.value = this.value.replace(/\D/g, '') // Remove tudo que não for número
-            .replace(/(\d{2})(\d{4})/, '$1/$2') // Formato MM/AAAA
-            .slice(0, 7); // Limita a 7 caracteres (MM/AAAA)
-    });
-
-    // Formatação do CVV (três dígitos)
-    document.getElementById('codigoVerificador').addEventListener('input', function() {
-        // Permite apenas 3 números
-        this.value = this.value.replace(/\D/g, '').slice(0, 3); // Permite até 3 dígitos
+        document.getElementById('codigoVerificador').addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').slice(0, 3);
+        });
     });
 </script>
 </body>
