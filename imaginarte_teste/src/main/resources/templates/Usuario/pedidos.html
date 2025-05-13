@@ -40,7 +40,7 @@
         <td th:text="${pedido.total}">R$ 150,00</td>
         <td th:text="${pedido.status}">Em andamento</td>
         <td>
-          <a th:href="@{/pedido/detalhe/{id}(id=${pedido.id})}" class="btn btn-primary btn-sm">Detalhes</a>
+          <a th:href="@{/pedido/meus-pedidos/{id}(id=${pedido.id})}" class="btn btn-primary btn-sm">Detalhes</a>
         </td>
       </tr>
       </tbody>

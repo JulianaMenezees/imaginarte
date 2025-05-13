@@ -13,11 +13,11 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String numeroPedido; // Sequencial gerado
+    private String numeroPedido;
     private BigDecimal total;
     private BigDecimal frete;
     private String formaPagamento;
-    private String status; // Ex.: "Aguardando pagamento"
+    private String status;
     private LocalDateTime dataPedido;
 
     @ManyToOne
@@ -28,4 +28,12 @@ public class Pedido {
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
+
+    @Transient
+    public BigDecimal getSubtotal() {
+        return itens.stream()
+                .map(ItemPedido::getSubtotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
 }

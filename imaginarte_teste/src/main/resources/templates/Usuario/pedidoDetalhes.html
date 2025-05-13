@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resumo do Pedido</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #FFF8EF;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 900px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    h3 {
+      color: #444;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 8px;
+      margin-top: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    th {
+      background-color: #A0E6B2;
+      color: #333;
+      text-align: center;
+      padding: 15px;
+    }
+
+    td {
+      background-color: #fff;
+      text-align: center;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .summary {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .summary p {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+
+    strong {
+      font-weight: bold;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    button {
+      background-color: #FEB6C6;
+      color: #333;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #87D39E;
+    }
+
+    a {
+      text-decoration: none;
+      color: #333;
+      background-color: #A0E6B2;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #87D39E;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Resumo do Pedido</h2>
+
+  <h3>Produtos</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>Produto</th>
+      <th>Quantidade</th>
+      <th>Preço Unitário</th>
+      <th>Subtotal</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${pedido.itens}">
+      <td th:text="${item.produto.nome}">Nome do Produto</td>
+      <td th:text="${item.quantidade}">1</td>
+      <td th:text="${item.precoUnitario}">R$ 0,00</td>
+      <td th:text="${item.subtotal}">R$ 0,00</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="summary">
+    <p><strong>Subtotal:</strong> <span th:text="${pedido.subtotal}">R$ 0,00</span></p>
+    <p><strong>Frete:</strong> <span th:text="${pedido.frete}">R$ 0,00</span></p>
+    <p><strong>Total:</strong> <span th:text="${pedido.total}">R$ 0,00</span></p>
+  </div>
+
+  <h3>Endereço de Entrega</h3>
+  <p th:text="${pedido.enderecoEntrega.logradouro + ' ' + pedido.enderecoEntrega.numero + ' ' + pedido.enderecoEntrega.bairro + ', ' + pedido.enderecoEntrega.cidade + ' - ' + pedido.enderecoEntrega.uf}">Endereço completo</p>
+
+  <h3>Forma de Pagamento</h3>
+  <p th:text="${pedido.formaPagamento}">Forma de pagamento</p>
+
+  <div class="button-container">
+    <a th:href="@{/pedido/meuspedidos}">Voltar para Meus Pedidos</a>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -14,8 +14,13 @@ public class PedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
-    // Este método você precisa criar
     public List<Pedido> buscarPedidosPorUsuario(Usuario usuario) {
         return pedidoRepository.findByUsuario(usuario);
+
     }
+
+    public Pedido buscarPorId(Long id) {
+        return pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+    }
+
 }
