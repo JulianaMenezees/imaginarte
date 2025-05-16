@@ -148,7 +148,7 @@ public class CheckoutController {
         pedido.setFormaPagamento(formaPagamento != null ? formaPagamento : "Não Informado");
         pedido.setFrete(BigDecimal.valueOf(carrinho.getFrete()));
         pedido.setTotal(BigDecimal.valueOf(carrinho.getTotal()));
-        pedido.setStatus("Aguardando pagamento");
+        pedido.setStatus(StatusPedido.AGUARDANDO_PAGAMENTO);
         pedido.setDataPedido(LocalDateTime.now());
 
         pedido.setNumeroPedido(gerarNumeroPedido());

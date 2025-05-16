@@ -1,6 +1,7 @@
 package com.imaginarte.imaginarte_teste.controller;
 
 import com.imaginarte.imaginarte_teste.model.Pedido;
+import com.imaginarte.imaginarte_teste.model.StatusPedido;
 import com.imaginarte.imaginarte_teste.model.Usuario;
 import com.imaginarte.imaginarte_teste.service.PedidoService;
 import jakarta.servlet.http.HttpSession;
@@ -42,10 +43,25 @@ public class PedidoController {
         Pedido pedido = pedidoService.buscarPorId(id);
 
         if (!(pedido.getUsuario().getId() ==(usuario.getId()))) {
-            return "redirect:/pedido/meuspedidos"; // segurança: só pode ver seu pedido
+            return "redirect:/pedido/meuspedidos";
         }
 
         model.addAttribute("pedido", pedido);
         return "Usuario/pedidoDetalhes";
     }
+
+    @GetMapping("/todos")
+    public String listarTodosOsPedidos(Model model) {
+        List<Pedido> pedidos = pedidoService.listarTodosOrdenadosPorData();
+        model.addAttribute("pedidos", pedidos);
+        model.addAttribute("statusValores", StatusPedido.values());
+        return "ProdutosEstoquista/pedidos";
+    }
+
+    @PostMapping("/{id}/atualizar-status")
+    public String atualizarStatus(@PathVariable Long id, @RequestParam("status") StatusPedido status) {
+        pedidoService.atualizarStatus(id, status);
+        return "redirect:/pedido/todos";
+    }
+
 }

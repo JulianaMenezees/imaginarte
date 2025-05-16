@@ -17,8 +17,10 @@ public class Pedido {
     private BigDecimal total;
     private BigDecimal frete;
     private String formaPagamento;
-    private String status;
     private LocalDateTime dataPedido;
+
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status;
 
     @ManyToOne
     private Usuario usuario;
