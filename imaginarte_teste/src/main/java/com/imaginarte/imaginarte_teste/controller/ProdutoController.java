@@ -130,23 +130,6 @@ public class ProdutoController {
         return "ProdutosAdmin/cadastroProdutoAdmin";
     }
 
-    @GetMapping("/editar-produto-estoquista")
-    public String showEditarProdutoEstoquista(@RequestParam int id, Model model) {
-        try {
-            ProdutoAdmin produtoAdmin = repository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-
-            ProdutoAdminDto produtoAdminDto = new ProdutoAdminDto();
-            produtoAdminDto.setId(produtoAdminDto.getId());
-            produtoAdminDto.setQuantidade(produtoAdminDto.getQuantidade());
-
-            model.addAttribute("produtoAdminDto", produtoAdminDto);
-        } catch (Exception ex) {
-            System.out.println("Erro: " + ex.getMessage());
-            return "redirect:/produtos";
-        }
-        return "ProdutosEstoquista/AllProdutosEsto";
-    }
-
     @PutMapping("/alterarSituacao/{id}")
     @ResponseBody
     public Map<String, String> alterarSituacao(@PathVariable int id, @RequestBody Map<String, Boolean> payload) {
@@ -186,5 +169,48 @@ public class ProdutoController {
 
         model.addAttribute("produto", produto);
         return "detalhesProduto";
+    }
+
+    @GetMapping("/estoquista")
+    public String showProdutosEstoquista(@RequestParam(value = "search", required = false, defaultValue = "") String search, Model model) {
+        List<ProdutoAdmin> produtos;
+
+        if (search.isEmpty()) {
+            produtos = repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        } else {
+            produtos = repository.findByNomeContainingIgnoreCase(search);
+        }
+
+        model.addAttribute("produtos", produtos);
+        return "ProdutosEstoquista/AllProdutosEsto"; // esse HTML já existe, como você mostrou
+    }
+
+    @GetMapping("/editar-produto-estoquista")
+    public String showEditarProdutoEstoquista(@RequestParam int id, Model model) {
+        try {
+            ProdutoAdmin produtoAdmin = repository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+            ProdutoAdminDto produtoAdminDto = new ProdutoAdminDto();
+            produtoAdminDto.setId(produtoAdmin.getId());
+            produtoAdminDto.setQuantidade(produtoAdmin.getQuantidade());
+
+            model.addAttribute("produtoAdminDto", produtoAdminDto);
+            return "ProdutosEstoquista/editarProdutoEsto"; // ← criar este HTML
+        } catch (Exception ex) {
+            System.out.println("Erro: " + ex.getMessage());
+            return "redirect:/produtos/estoquista";
+        }
+    }
+
+    @PostMapping("/editar-produto-estoquista")
+    public String salvarAlteracaoQuantidade(@ModelAttribute ProdutoAdminDto produtoAdminDto, RedirectAttributes redirectAttributes) {
+        ProdutoAdmin produtoAdmin = repository.findById(produtoAdminDto.getId())
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+        produtoAdmin.setQuantidade(produtoAdminDto.getQuantidade());
+        repository.save(produtoAdmin);
+
+        redirectAttributes.addFlashAttribute("mensagem", "Quantidade atualizada com sucesso!");
+        return "redirect:/produtos/estoquista";
     }
 }

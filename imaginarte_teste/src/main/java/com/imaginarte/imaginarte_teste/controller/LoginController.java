@@ -47,7 +47,7 @@ public class LoginController {
         if(usuarioLogado != null){
             CookieService.setCookie(response, "usuarioId", String.valueOf(usuarioLogado.getId()), 10000);
             CookieService.setCookie(response, "nomeUsuario", String.valueOf(usuarioLogado.getNome()), 10000);
-            CookieService.setCookie(response, "roleUsuario", String.valueOf(usuarioLogado.getSenha()), 10000);
+            CookieService.setCookie(response, "roleUsuario", usuarioLogado.getGrupo(), 10000);
 
             if("Administrador".equals(usuarioLogado.getGrupo())){
                 return "redirect:dashboard";
