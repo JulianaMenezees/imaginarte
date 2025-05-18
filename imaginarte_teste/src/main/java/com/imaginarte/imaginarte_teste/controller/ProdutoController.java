@@ -182,7 +182,7 @@ public class ProdutoController {
         }
 
         model.addAttribute("produtos", produtos);
-        return "ProdutosEstoquista/AllProdutosEsto"; // esse HTML já existe, como você mostrou
+        return "ProdutosEstoquista/AllProdutosEsto";
     }
 
     @GetMapping("/editar-produto-estoquista")

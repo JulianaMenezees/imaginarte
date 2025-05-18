@@ -70,6 +70,11 @@
     <!-- Linha de botões -->
     <div class="d-flex justify-content-between mb-4">
         <h1>Produtos</h1>
+
+        <form method="get" action="/produtos/estoquista" class="d-flex w-50">
+            <input type="text" name="search" placeholder="Pesquisar por nome" class="form-control">
+            <button type="submit" class="btn btn-primary ms-2">Pesquisar</button>
+        </form>
     </div>
 
     <!-- Tabela de produtos -->

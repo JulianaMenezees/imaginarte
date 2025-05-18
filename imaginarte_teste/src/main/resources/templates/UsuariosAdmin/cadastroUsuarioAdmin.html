@@ -24,9 +24,14 @@
             </div>
 
             <div class="mb-3">
-                <input class="form-control" th:field="*{email}" type="email" placeholder="Email" required>
+                <input class="form-control"
+                       th:field="*{email}"
+                       type="email"
+                       placeholder="Email"
+                       th:attr="readonly=${usuarioAdminDto.id != 0}" required>
                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
             </div>
+
 
             <div class="mb-3">
                 <input class="form-control" th:field="*{senha}" type="password" id="senha" placeholder="Senha"

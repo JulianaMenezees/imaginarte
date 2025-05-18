@@ -64,11 +64,15 @@ public class UsuarioAdminController {
         if (usuarioAdminDto.getId() != 0) {
             // Editando um usuário existente
             usuarioAdmin = repo.findById(usuarioAdminDto.getId()).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+            // ⚠️ Não altera o e-mail ao editar
         } else {
             // Criando um novo usuário
             usuarioAdmin = new UsuarioAdmin();
-            usuarioAdmin.setSituacao(true); // Definir como ativo por padrão
+            usuarioAdmin.setSituacao(true); // Ativo por padrão
+            usuarioAdmin.setEmail(usuarioAdminDto.getEmail()); // Só define o email se for novo
         }
+
 
         // Atualiza os dados
         usuarioAdmin.setNome(usuarioAdminDto.getNome());

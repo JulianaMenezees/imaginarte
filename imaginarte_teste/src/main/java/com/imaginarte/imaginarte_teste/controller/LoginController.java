@@ -41,23 +41,30 @@ public class LoginController {
         return "dashboardEstoquista";
     }
 
-   @PostMapping("/logar")
-   public String loginUsuarioAdmin(UsuarioAdmin usuarioAdmin, Model model, HttpServletResponse response) throws UnsupportedEncodingException {
+    @PostMapping("/logar")
+    public String loginUsuarioAdmin(UsuarioAdmin usuarioAdmin, Model model, HttpServletResponse response) throws UnsupportedEncodingException {
         UsuarioAdmin usuarioLogado = this.ur.login(usuarioAdmin.getEmail(), usuarioAdmin.getSenha());
-        if(usuarioLogado != null){
+
+        if (usuarioLogado != null) {
+            if (!usuarioLogado.isSituacao()) {
+                model.addAttribute("erro", "Usuário inativo!");
+                return "login";
+            }
+
             CookieService.setCookie(response, "usuarioId", String.valueOf(usuarioLogado.getId()), 10000);
             CookieService.setCookie(response, "nomeUsuario", String.valueOf(usuarioLogado.getNome()), 10000);
             CookieService.setCookie(response, "roleUsuario", usuarioLogado.getGrupo(), 10000);
 
-            if("Administrador".equals(usuarioLogado.getGrupo())){
+            if ("Administrador".equals(usuarioLogado.getGrupo())) {
                 return "redirect:dashboard";
             } else if ("Estoquista".equals(usuarioLogado.getGrupo())) {
                 return "redirect:dashboardEstoquista";
             }
         }
-        model.addAttribute("erro", "Usuario Invalido!");
+
+        model.addAttribute("erro", "Usuário inválido!");
         return "login";
-   }
+    }
 
     @GetMapping("/cadastro")
     public String cadastroUsuarioAdmin() {

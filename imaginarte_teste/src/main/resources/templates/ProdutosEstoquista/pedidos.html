@@ -85,7 +85,7 @@
             <tbody>
             <tr th:each="pedido : ${pedidos}">
                 <td th:text="${pedido.numeroPedido}">0001</td>
-                <td th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy HH:mm')}">01/01/2025</td>
+                <td th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy')}">01/01/2025</td>
                 <td th:text="${pedido.total}">R$ 0,00</td>
                 <td>
                     <form th:action="@{'/pedido/' + ${pedido.id} + '/atualizar-status'}" method="post" class="d-flex align-items-center">
