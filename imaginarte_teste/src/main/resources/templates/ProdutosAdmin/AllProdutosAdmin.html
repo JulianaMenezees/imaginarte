@@ -5,29 +5,117 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Imaginarte - Produtos</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/allUsuarios.css}" type="text/css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif !important;
+      background-color: #fdf6ef !important;
+      margin: 0;
+      padding: 0;
+    }
+
+    .btn-primary {
+      background-color: #f4a07a !important;
+      border-color: #f4a07a !important;
+      color: #fff !important;
+    }
+
+    .btn-primary:hover {
+      background-color: #d88e6c !important;
+      border-color: #d88e6c !important;
+    }
+
+    .table th {
+      color: white !important;
+      background-color: #FEB6C6 !important;
+    }
+
+    .table-bordered td, .table-bordered th {
+      border: 1px solid #dee2e6;
+    }
+
+    .table td, .table th {
+      vertical-align: middle;
+    }
+
+    .container {
+      margin-top: 40px;
+      margin-bottom: 80px;
+    }
+
+    footer {
+      background-color: #6c5b7b;
+      padding: 10px;
+      font-size: 12px;
+      color: #fdf6ef;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      text-align: center;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #FEB6C6;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #88d8b0;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- Carregando o header -->
 <div id="header"></div>
 
 <div class="container">
-  <!-- Linha para os botões -->
   <div class="d-flex justify-content-between mb-4">
-    <!-- Botão de criar usuário alinhado à esquerda -->
-    <a class="btn btn-primary" id="cadastrar" href="/produtos/cadastroProduto">Cadastrar novo produto</a>
+    <a class="btn btn-primary" href="/produtos/cadastroProduto">Cadastrar novo produto</a>
 
-    <!-- Formulário de pesquisa alinhado à direita -->
     <form method="get" action="/produtos" class="d-flex w-50">
-      <input type="text" name="search"  placeholder="Pesquisar por nome" class="form-control">
+      <input type="text" name="search" placeholder="Pesquisar por nome" class="form-control">
       <button type="submit" class="btn btn-primary ms-2">Pesquisar</button>
     </form>
   </div>
 
-  <!-- Tabela de usuários -->
-  <table class="table">
+  <table class="table table-bordered table-hover">
     <thead>
     <tr>
       <th>Código</th>
@@ -35,26 +123,25 @@
       <th>Quantidade</th>
       <th>Valor</th>
       <th>Status</th>
-      <th>Editar Produto</th>
+      <th>Editar</th>
       <th>Visualizar</th>
       <th>Habilitar/Desabilitar</th>
     </tr>
     </thead>
     <tbody>
-    <!-- Exibindo os produtos -->
     <tr th:each="produtos : ${produtos}">
       <td th:text="${produtos.id}"></td>
       <td th:text="${produtos.nome}"></td>
       <td th:text="${produtos.quantidade}"></td>
       <td th:text="${produtos.preco}"></td>
       <td th:text="${produtos.situacao} ? 'Ativo' : 'Inativo'"></td>
-      <td style="white-space: nowrap">
+      <td>
         <a class="btn btn-primary btn-sm" th:href="@{/produtos/editar-produto(id=${produtos.id})}">Editar</a>
       </td>
-      <td style="white-space: nowrap">
+      <td>
         <a class="btn btn-primary btn-sm" th:href="@{/produtos/visualizarProduto/{id}(id=${produtos.id})}">Visualizar</a>
       </td>
-      <td style="white-space: nowrap">
+      <td>
         <label class="switch">
           <input type="checkbox" th:checked="${produtos.situacao}" th:attr="data-id=${produtos.id}" onchange="toggleSituacao(this)">
           <span class="slider"></span>
@@ -65,45 +152,40 @@
   </table>
 </div>
 
-<!-- Scripts -->
+<footer>
+  CONTATO: SAC.IMAGINARTE@GMAIL.COM<br>
+  COPYRIGHT &copy; 2025 IMAGINARTE
+</footer>
+
 <script>
-  fetch('headerAdmin.html')
+  fetch('/headerAdmin.html')
           .then(response => response.text())
           .then(data => {
             document.getElementById('header').innerHTML = data;
           })
           .catch(error => console.error('Erro ao carregar o header:', error));
 
-  // Função para alternar a situação do usuário (Habilitar/Desabilitar)
   function toggleSituacao(checkbox) {
-    let userId = checkbox.getAttribute('data-id');
-    let situacao = checkbox.checked; // Envia true ou false
+    const id = checkbox.getAttribute('data-id');
+    const situacao = checkbox.checked;
 
-    fetch(`/produtos/alterarSituacao/${userId}`, {
+    fetch(`/produtos/alterarSituacao/${id}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ situacao: situacao })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ situacao })
     })
             .then(response => {
-              if (!response.ok) {
-                throw new Error("Erro ao alterar a situação do produto.");
-              }
+              if (!response.ok) throw new Error("Erro ao alterar a situação.");
               return response.json();
             })
-            .then(data => {
-              alert(data.mensagem);
-            })
+            .then(data => alert(data.mensagem))
             .catch(error => {
-              console.error("Erro:", error);
               alert("Erro ao alterar situação.");
-              checkbox.checked = !situacao; // Reverte o checkbox caso haja erro
+              checkbox.checked = !situacao;
             });
   }
 </script>
 
-<!-- Importando Bootstrap (JavaScript) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

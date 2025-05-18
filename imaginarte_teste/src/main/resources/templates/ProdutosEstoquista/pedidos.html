@@ -7,23 +7,79 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdf6ef;
+        }
+
+        .btn-primary {
+            background-color: #f4a07a;
+            border-color: #f4a07a;
+        }
+
+        .btn-primary:hover {
+            background-color: #d88e6c;
+            border-color: #d88e6c;
+        }
+
+        .btn-secondary {
+            background-color: #b49bae;
+            border-color: #b49bae;
+        }
+
+        .btn-secondary:hover {
+            background-color: #a28ba0;
+            border-color: #a28ba0;
+        }
+
+        .table th {
+            background-color: #FEB6C6;
+            color: #fff;
+        }
+
+        .table td, .table th {
+            vertical-align: middle;
+        }
+
+        .container {
+            margin-top: 40px;
+            margin-bottom: 80px;
+        }
+
+        footer {
+            background-color: #6c5b7b;
+            padding: 10px;
+            font-size: 12px;
+            color: #fdf6ef;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container mt-5">
-    <h1 class="mb-4">Lista de Pedidos</h1>
+<!-- Header compartilhado (Estoquista) -->
+<div id="header"></div>
 
-    <a href="/dashboardEstoquista" class="btn btn-secondary mb-3">Voltar</a>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Pedidos</h1>
+    </div>
 
     <div th:if="${pedidos != null and not #lists.isEmpty(pedidos)}">
-        <table class="table table-bordered table-striped">
-            <thead class="table-light">
+        <table class="table table-bordered table-hover">
+            <thead>
             <tr>
                 <th># Pedido</th>
                 <th>Data</th>
                 <th>Valor Total</th>
                 <th>Status</th>
-                <th>Ações</th>
             </tr>
             </thead>
             <tbody>
@@ -53,7 +109,24 @@
     </div>
 </div>
 
+<!-- Footer -->
+<footer>
+    CONTATO: SAC.IMAGINARTE@GMAIL.COM<br>
+    COPYRIGHT &copy; 2025 IMAGINARTE
+</footer>
+
+<!-- Script para carregar o header -->
+<script>
+    fetch('/headerEsto.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header').innerHTML = data;
+        })
+        .catch(error => console.error('Erro ao carregar o header:', error));
+</script>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

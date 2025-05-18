@@ -15,11 +15,28 @@
     header {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       padding: 10px 20px;
       font-weight: bold;
+      background-color: #6c5b7b;
     }
     .logo {
-      color: orange;
+      color: #f8b195;
+      font-size: 20px;
+    }
+    .logout-btn {
+      background-color: #f8b195;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .logout-btn:hover {
+      background-color: #DA9C83;
     }
     .container {
       display: flex;
@@ -37,36 +54,51 @@
       text-decoration: none;
       color: black;
       display: inline-block;
+      transition: background-color 0.3s;
+    }
+    .card:hover {
+      background-color: #D88E6C;
     }
     .card img {
       width: 30px;
       height: 30px;
     }
     footer {
-      background-color: #b49bae;
+      background-color: #6c5b7b;
       padding: 10px;
       font-size: 12px;
       position: fixed;
       width: 100%;
       bottom: 0;
+      color: #fdf6ef;
+    }
+    .nome {
+      color: #f8b195;
+    }
+
+    .titulo {
+      color: #fdf6ef;
+    }
+
+    img {
+      filter: invert(90%) sepia(10%) saturate(200%) hue-rotate(10deg);
     }
   </style>
 </head>
 <body>
 <header>
   <div class="logo">IMAGINARTE</div>
-  <a class="nav-link" href="login">Logout</a>
-  <div>Estoquista <span th:text="${nome}"></span>
-  </div>
+  <a href="login" class="logout-btn">Logout</a>
+  <div class="nome">Estoquista <span th:text="${nome}"></span></div>
 </header>
 <div class="container">
   <a href="/produtos/estoquista" class="card">
-  <p><strong>PRODUTOS</strong></p>
+    <p class="titulo"><strong>PRODUTOS</strong></p>
     <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Ícone de etiqueta">
   </a>
   <a href="/pedido/todos" class="card">
-    <p><strong>PEDIDOS</strong></p>
-    <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Ícone de etiqueta">
+    <p class="titulo"><strong>PEDIDOS</strong></p>
+    <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Ícone de pedidos">
   </a>
 </div>
 <footer>

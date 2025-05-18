@@ -3,31 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imaginarte - Produtos</title>
+    <title>Imaginarte - Produtos (Estoquista)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/allUsuarios.css}" type="text/css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdf6ef;
+        }
+
+        .btn-primary {
+            background-color: #f4a07a;
+            border-color: #f4a07a;
+        }
+
+        .btn-primary:hover {
+            background-color: #d88e6c;
+            border-color: #d88e6c;
+        }
+
+        .btn-secondary {
+            background-color: #b49bae;
+            border-color: #b49bae;
+        }
+
+        .btn-secondary:hover {
+            background-color: #a28ba0;
+            border-color: #a28ba0;
+        }
+
+        .table th {
+            background-color: #FEB6C6;
+            color: #fff;
+        }
+
+        .table td, .table th {
+            vertical-align: middle;
+        }
+
+        .container {
+            margin-top: 40px;
+            margin-bottom: 80px;
+        }
+
+        footer {
+            background-color: #6c5b7b;
+            padding: 10px;
+            font-size: 12px;
+            color: #fdf6ef;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- Carregando o header -->
+<!-- Header compartilhado (Estoquista) -->
 <div id="header"></div>
 
 <div class="container">
-    <!-- Linha para os botões -->
+    <!-- Linha de botões -->
     <div class="d-flex justify-content-between mb-4">
-        <!-- Botão para voltar ao dashboard -->
-        <a href="/dashboardEstoquista" class="btn btn-secondary">Voltar ao Dashboard</a>
-
-        <!-- Formulário de pesquisa alinhado à direita -->
-        <form method="get" action="/produtos" class="d-flex w-50">
-            <input type="text" name="search" placeholder="Pesquisar por nome" class="form-control">
-            <button type="submit" class="btn btn-primary ms-2">Pesquisar</button>
-        </form>
+        <h1>Produtos</h1>
     </div>
 
-    <!-- Tabela de usuários -->
-    <table class="table">
+    <!-- Tabela de produtos -->
+    <table class="table table-bordered table-hover">
         <thead>
         <tr>
             <th>Código</th>
@@ -45,7 +91,7 @@
             <td th:text="${produtos.quantidade}"></td>
             <td th:text="${produtos.preco}"></td>
             <td th:text="${produtos.situacao} ? 'Ativo' : 'Inativo'"></td>
-            <td style="white-space: nowrap">
+            <td>
                 <a class="btn btn-primary btn-sm" th:href="@{/produtos/editar-produto-estoquista(id=${produtos.id})}">Editar</a>
             </td>
         </tr>
@@ -53,12 +99,24 @@
     </table>
 </div>
 
-<!-- Scripts -->
+<!-- Footer -->
+<footer>
+    CONTATO: SAC.IMAGINARTE@GMAIL.COM<br>
+    COPYRIGHT &copy; 2025 IMAGINARTE
+</footer>
+
+<!-- Script para carregar o header -->
 <script>
-    fetch('headerEsto.html')
-        .then(response => response.text())
+    fetch('/headerEsto.html')
+            .then(response => response.text())
         .then(data => {
             document.getElementById('header').innerHTML = data;
         })
         .catch(error => console.error('Erro ao carregar o header:', error));
-    </
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
