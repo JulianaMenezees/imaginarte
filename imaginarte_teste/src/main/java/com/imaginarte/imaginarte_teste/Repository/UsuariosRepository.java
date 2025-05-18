@@ -18,4 +18,7 @@ public interface UsuariosRepository extends JpaRepository<UsuarioAdmin, Integer>
     public UsuarioAdmin login(String email, String senha);
 
     UsuarioAdmin findByCpf(String cpf);
+
+    UsuarioAdmin findByEmail(String email);
+
 }

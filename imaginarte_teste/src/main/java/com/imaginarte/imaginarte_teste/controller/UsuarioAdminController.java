@@ -6,6 +6,7 @@ import com.imaginarte.imaginarte_teste.model.UsuarioAdmin;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,9 @@ public class UsuarioAdminController {
 
     @Autowired
     private UsuariosRepository repo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping({"", "/"})
     public String showUsuarios(@RequestParam(value = "search", required = false, defaultValue = "") String search, Model model) {
@@ -59,13 +63,19 @@ public class UsuarioAdminController {
             return "UsuariosAdmin/cadastroUsuarioAdmin";
         }
 
+        // Verifica se o e-mail já está sendo utilizado por outro usuário
+        UsuarioAdmin usuarioComMesmoEmail = repo.findByEmail(usuarioAdminDto.getEmail());
+        if (usuarioComMesmoEmail != null && (usuarioAdminDto.getId() == 0 || usuarioComMesmoEmail.getId() != usuarioAdminDto.getId())) {
+            result.rejectValue("email", "email.existente", "Este e-mail já está cadastrado.");
+            return "UsuariosAdmin/cadastroUsuarioAdmin";
+        }
+
         UsuarioAdmin usuarioAdmin;
 
         if (usuarioAdminDto.getId() != 0) {
             // Editando um usuário existente
             usuarioAdmin = repo.findById(usuarioAdminDto.getId()).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
-            // ⚠️ Não altera o e-mail ao editar
+            // ⚠️ Não altera o e-mail ao editar (se quiser permitir alterar, mova o setEmail para dentro desse bloco e valide)
         } else {
             // Criando um novo usuário
             usuarioAdmin = new UsuarioAdmin();
@@ -73,14 +83,13 @@ public class UsuarioAdminController {
             usuarioAdmin.setEmail(usuarioAdminDto.getEmail()); // Só define o email se for novo
         }
 
-
         // Atualiza os dados
         usuarioAdmin.setNome(usuarioAdminDto.getNome());
-        usuarioAdmin.setEmail(usuarioAdminDto.getEmail());
 
         // Atualiza a senha se houver uma nova
         if (!usuarioAdminDto.getSenha().isEmpty()) {
-            usuarioAdmin.setSenha(usuarioAdminDto.getSenha());
+            String senhaCriptografada = passwordEncoder.encode(usuarioAdminDto.getSenha());
+            usuarioAdmin.setSenha(senhaCriptografada);
         }
 
         usuarioAdmin.setCpf(usuarioAdminDto.getCpf().replaceAll("\\D", ""));
@@ -91,6 +100,7 @@ public class UsuarioAdminController {
 
         return "redirect:/usuarios";
     }
+
 
     @GetMapping("/editar-usuario")
     public String showEditarUsuario(@RequestParam int id, Model model) {

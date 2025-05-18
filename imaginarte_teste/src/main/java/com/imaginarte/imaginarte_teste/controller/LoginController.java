@@ -3,18 +3,18 @@ package com.imaginarte.imaginarte_teste.controller;
 import com.imaginarte.imaginarte_teste.service.CookieService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.ui.Model;
-import com.imaginarte.imaginarte_teste.Repository.UsuariosRepository;
-import com.imaginarte.imaginarte_teste.model.UsuarioAdmin;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import com.imaginarte.imaginarte_teste.Repository.UsuariosRepository;
+import com.imaginarte.imaginarte_teste.model.UsuarioAdmin;
 
 import java.io.UnsupportedEncodingException;
 
@@ -23,6 +23,9 @@ public class LoginController {
 
     @Autowired
     private UsuariosRepository ur;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
     public String login() {
@@ -42,10 +45,13 @@ public class LoginController {
     }
 
     @PostMapping("/logar")
-    public String loginUsuarioAdmin(UsuarioAdmin usuarioAdmin, Model model, HttpServletResponse response) throws UnsupportedEncodingException {
-        UsuarioAdmin usuarioLogado = this.ur.login(usuarioAdmin.getEmail(), usuarioAdmin.getSenha());
+    public String loginUsuarioAdmin(@ModelAttribute UsuarioAdmin usuarioAdmin,
+                                    Model model,
+                                    HttpServletResponse response) throws UnsupportedEncodingException {
 
-        if (usuarioLogado != null) {
+        UsuarioAdmin usuarioLogado = ur.findByEmail(usuarioAdmin.getEmail());
+
+        if (usuarioLogado != null && passwordEncoder.matches(usuarioAdmin.getSenha(), usuarioLogado.getSenha())) {
             if (!usuarioLogado.isSituacao()) {
                 model.addAttribute("erro", "Usuário inativo!");
                 return "login";
@@ -56,9 +62,9 @@ public class LoginController {
             CookieService.setCookie(response, "roleUsuario", usuarioLogado.getGrupo(), 10000);
 
             if ("Administrador".equals(usuarioLogado.getGrupo())) {
-                return "redirect:dashboard";
+                return "redirect:/dashboard";
             } else if ("Estoquista".equals(usuarioLogado.getGrupo())) {
-                return "redirect:dashboardEstoquista";
+                return "redirect:/dashboardEstoquista";
             }
         }
 
@@ -71,12 +77,14 @@ public class LoginController {
         return "cadastro";
     }
 
-    @RequestMapping(value = "/cadastro", method = RequestMethod.POST)
-    public String cadastroUsuario(@Valid UsuarioAdmin usuarioAdmin, BindingResult result) {
+    @PostMapping("/cadastro")
+    public String cadastroUsuario(@Valid @ModelAttribute UsuarioAdmin usuarioAdmin, BindingResult result) {
         if (result.hasErrors()) {
-            return "redirect:/cadastro";
+            return "cadastro";
         }
 
+        // Criptografa a senha antes de salvar
+        usuarioAdmin.setSenha(passwordEncoder.encode(usuarioAdmin.getSenha()));
         ur.save(usuarioAdmin);
 
         return "redirect:/login";
@@ -84,16 +92,13 @@ public class LoginController {
 
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-        // Invalidar a sessão do Spring
         request.getSession().invalidate();
 
-        // Adicionar lógica para limpar o cookie
         Cookie logoutCookie = new Cookie("JSESSIONID", null);
-        logoutCookie.setMaxAge(0); // Expira o cookie
-        logoutCookie.setPath("/"); // Garante que o cookie de logout será removido
+        logoutCookie.setMaxAge(0);
+        logoutCookie.setPath("/");
         response.addCookie(logoutCookie);
 
-        return "redirect:/login"; // Redireciona para a página de login
+        return "redirect:/login";
     }
-
 }
